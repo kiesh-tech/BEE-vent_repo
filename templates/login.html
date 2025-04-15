@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - Bee-vents</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="navbar-left">
+      <div class="navbar-logo">Bee-vents</div>
+      <nav class="navbar-links">
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="#">Events</a>
+        <a href="{{ url_for('about') }}">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="content">
+    <h1>Login</h1>
+    <form class="auth-form">
+      <label>Email:</label>
+      <input type="email" required />
+      
+      <label>Password:</label>
+      <input type="password" required />
+      
+      <button type="submit" class="btn login-btn">Login</button>
+    </form>
+  </main>
+
+</body>
+</html>
