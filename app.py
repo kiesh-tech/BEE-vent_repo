@@ -1,35 +1,24 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_get
 
-app = Flask(__name__)
+def create_app():
+    app = Flask(__name__)
+    app.config['SECRET_KEY'] = 'goat'
 
-@app.route('/')
-def home():
-    return render_template('home.html')
 
-@app.route('/about')
-def about():
-    return render_template('about.html')
+    from .views import views
+    from .auth import auth
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        # Handle login logic here
-        email = request.form['email']
-        password = request.form['password']
-        return f"Logged in as {email}"
-    return render_template('login.html')
+    app.register_blueprint(views, url_prefix='/')
+    app.register_blueprint(auth, url_prefix='/')
 
-@app.route('/signup', methods=['GET', 'POST'])
-def signup():
-    if request.method == 'POST':
-        # Handle signup logic here
-        name = request.form['name']
-        email = request.form['email']
-        password = request.form['password']
-        return f"Signed up as {name}"
-    return render_template('signup.html')
+    @app.route('/about')
+    def about():
+        return render_template('about.html')
 
-if __name__ == '__main__':
-    app.run(debug=True)
+
+    if __name__ == '__main__':
+        app.run(debug=True)
+
+        return app
 
 
