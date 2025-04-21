@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
 
@@ -28,6 +28,7 @@ def signup():
         password = request.form['password']
         return f"Signed up as {name}"
     return render_template('signup.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
