@@ -6,15 +6,15 @@
 }
 
 body {
-  background-color: #f4f4f4;
-  color: #333;
+  background-color: #f0f2f5;
+  color: #1a1a1a;
 }
 
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #333;
+  background-color: #002b5c;
   color: white;
   padding: 1rem 2rem;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -29,7 +29,7 @@ body {
   font-size: 1.8rem;
   font-weight: bold;
   margin-right: 2rem;
-  color: #ffdd57;
+  color: #e31b23;
 }
 
 .navbar-links a {
@@ -43,7 +43,7 @@ body {
 }
 
 .navbar-links a:hover {
-  color: #ffdd57;
+  color: #e31b23;
 }
 
 .navbar-right .btn {
@@ -65,18 +65,18 @@ body {
 
 .signup-btn {
   background-color: #ffdd57;
-  color: #000;
+  color: white;
   border: none;
 }
 
 .login-btn:hover {
   background-color: white;
-  color: #1e90ff;
+  color: #002b5c;
   transform: scale(1.05);
 }
 
 .signup-btn:hover {
-  background-color: #ffe97f;
+  background-color: #ff4c4c;
   transform: scale(1.05);
 }
 
@@ -89,14 +89,14 @@ body {
 
 .content h1 {
   font-size: 3rem;
-  color: #333;
+  color: #002b5c;
   margin-bottom: 1.5rem;
   text-align: center;
 }
 
 .content p {
   font-size: 1.2rem;
-  color: #666;
+  color: #444;
   margin-bottom: 2rem;
   text-align: center;
 }
@@ -114,7 +114,7 @@ body {
   display: block;
   margin: 10px 0 5px;
   font-size: 1rem;
-  color: #333;
+  color: #002b5c;
 }
 
 .auth-form input {
@@ -128,7 +128,7 @@ body {
 }
 
 .auth-form input:focus {
-  border-color: #ffdd57;
+  border-color: #e31b23;
   outline: none;
   background-color: #fff;
 }
@@ -137,8 +137,8 @@ body {
   width: 100%;
   padding: 12px;
   font-size: 1.2rem;
-  background-color: #ffdd57;
-  color: #000;
+  background-color: #002b5c;
+  color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -146,7 +146,7 @@ body {
 }
 
 .auth-form button:hover {
-  background-color: #ffe97f;
+  background-color: #003c80;
   transform: scale(1.05);
 }
 
@@ -196,13 +196,75 @@ body {
 
 .about-page h2 {
   margin-top: 2rem;
-  color: #1e90ff;
+  color: #002b5c;
 }
 
 .about-page p {
   margin-top: 1rem;
 }
 
+<<<<<<< HEAD
 .search {
   
+=======
+.actions-section {
+  display: flex;
+  justify-content: center;
+  gap: 2 rem;
+  padding: 3rem 1rem;
+  flex-wrap: wrap;
+}
+
+.action-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 250px;
+}
+
+.action-btn {
+  background-color: #002b5c;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 30px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.action-btn:hover {
+  background-color: #003c80;
+  transform: scale(1.05);
+}
+
+.action-desc {
+  background-color: #ffe066;
+  padding: 1 rem;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 500;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.logout-btn {
+  background-color: #333;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.logout-btn:hover {
+  background-color: #e31b23;
+  transform: scale(1.05);
+
+>>>>>>> d1010d8429c7d48680b636137c12df7b6ae900dc
 }
