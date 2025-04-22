@@ -203,14 +203,11 @@ body {
   margin-top: 1rem;
 }
 
-<<<<<<< HEAD
-.search {
-  
-=======
+
 .actions-section {
   display: flex;
   justify-content: center;
-  gap: 2 rem;
+  gap: 2rem;
   padding: 3rem 1rem;
   flex-wrap: wrap;
 }
@@ -242,11 +239,11 @@ body {
 
 .action-desc {
   background-color: #ffe066;
-  padding: 1 rem;
+  padding: 1rem;
   border-radius: 6px;
   text-align: center;
   font-weight: 500;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .logout-btn {
@@ -265,6 +262,4 @@ body {
 .logout-btn:hover {
   background-color: #e31b23;
   transform: scale(1.05);
-
->>>>>>> d1010d8429c7d48680b636137c12df7b6ae900dc
 }
