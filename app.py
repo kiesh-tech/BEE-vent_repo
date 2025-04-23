@@ -4,7 +4,7 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Required if using sessions
+app.secret_key = 'beeevents3'
 
 # MySQL DB connection
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:Hr060491#@localhost/sql_bee_events'
@@ -13,7 +13,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # Initialize the db
 db.init_app(app)
 
-# Create tables once
 with app.app_context():
     db.create_all()
 
@@ -64,7 +63,7 @@ def login():
         if user and user.check_password(password):
             login_user(user)
             flash('Logged in successfully.')
-            return redirect(url_for('userpage'))  # change to your homepage
+            return redirect(url_for('userpage')) 
         else:
             flash('Invalid credentials')
             return redirect(url_for('login'))
@@ -84,9 +83,8 @@ def userpage():
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
-    query = request.form.get('query', '')  # Get the search query
+    query = request.form.get('query', '')
     if query:
-        # Search buildings and rooms
         buildings = MMUBuilding.query.filter(MMUBuilding.building_name.ilike(f"%{query}%")).all()
         rooms = Room.query.filter(Room.room_name.ilike(f"%{query}%")).all()
     else:
