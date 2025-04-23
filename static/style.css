@@ -8,6 +8,9 @@
 body {
   background-color: #f0f2f5;
   color: #1a1a1a;
+  min-height: 100vh;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 .navbar {
@@ -262,4 +265,134 @@ body {
   background-color: #e31b23;
   transform: scale(1.05);
 
+}
+
+.section-title {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.search-container {
+  text-align: left;
+  padding: 1rem 2rem;
+}
+
+.search-box {
+  padding: 8px;
+  width: 150px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+}
+
+.event-section {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  padding: 2rem;
+}
+
+.event-card {
+  background: #fff;
+  border-radius: 8px;
+  width: 220px;
+  text-align: center;
+}
+
+.event-image {
+  height: 150px;
+  background-color: #ffdd57;
+  border-radius: 4px;
+}
+
+.event-desc {
+  margin-top: 1rem;
+  font-weight: 500;
+  padding: 0 10px;
+}
+
+.event-btn {
+  display: block;
+  width: 90%;
+  margin: 10px auto;
+  padding: 10px;
+  border-radius: 20px;
+  background-color: #333;
+  color: white;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.event-btn.dark {
+  background-color: #1a1a1a;
+}
+
+.event.btn:hover {
+  transform: scale(1.05);
+  transition: 0.3s;
+}
+
+.comments-title {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #1e90ff;
+  margin-bottom: 2rem;
+}
+
+.comment-form {
+  max-width: 600px;
+  margin: 0 auto 2rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.coment-form textarea {
+  padding: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  resize: vertical;
+}
+
+.comment-btn {
+  background-color: #ff4c4c;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-size: bold;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3 ease;
+  align-self: flex-end;
+  margin-top: 0.5rem;
+}
+
+.comment-btn:hover {
+  background-color: #e03131;
+  transform: scale(1.05);
+}
+
+.back-container {
+  max-width: 1000px;
+  margin: 1rem auto 0 auto;
+  padding: 0 2rem;
+}
+
+.back-btn {
+  display: inline-block;
+  background-color: #ccc;
+  color: #002b5c;
+  padding: 8px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3 ease;
+}
+
+.back-btn:hover {
+  background-color: #aaa;
 }
