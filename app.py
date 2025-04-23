@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session
 from model import db, MMUBuilding, Room, User
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 
@@ -41,14 +41,12 @@ def signup():
 
         existing_user = User.query.filter((User.username == username) | (User.email == email)).first()
         if existing_user:
-            flash('Username or email already exists')
             return redirect(url_for('signup'))
 
         new_user = User(username=username, email=email)
         new_user.set_password(password)
         db.session.add(new_user)
         db.session.commit()
-        flash('Signup successful! Please login.')
         return redirect(url_for('userpage'))
 
     return render_template('signup.html')
@@ -62,10 +60,8 @@ def login():
         user = User.query.filter_by(username=username).first()
         if user and user.check_password(password):
             login_user(user)
-            flash('Logged in successfully.')
             return redirect(url_for('userpage')) 
         else:
-            flash('Invalid credentials')
             return redirect(url_for('login'))
 
     return render_template('login.html')
@@ -74,7 +70,6 @@ def login():
 @login_required
 def logout():
     logout_user()
-    flash('Logged out successfully.')
     return redirect(url_for('login'))
 
 @app.route('/userpage')
