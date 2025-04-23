@@ -18,7 +18,6 @@ class Room(db.Model):
     room_id = db.Column(db.Integer, primary_key=True)
     room_name = db.Column(db.String(60), nullable=False)
     room_type = db.Column(db.String(45), nullable=False)
-    capacity = db.Column(db.Integer, nullable=True)
     building_id = db.Column(db.Integer, db.ForeignKey('mmu_buildings.buildings_id'), nullable=False)
 
 
