@@ -11,6 +11,9 @@ app.secret_key = 'your_secret_key'  # Required if using sessions
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:Hr060491#@localhost/sql_bee_events'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Jol3n3__.@localhost/event_db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
+
 # Initialize the db
 db.init_app(app)
 

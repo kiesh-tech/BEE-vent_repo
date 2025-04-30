@@ -38,3 +38,20 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password_hash, password)
 
 
+event_participants = db.Table('event_participants',
+    db.Column('user.id', db.Integer, primary_key=True)
+    db.Column('event_id', db.Integer, db.ForeignKey('event.id'), primary_key=True)
+)
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(250), unique=True, nullable=False)
+
+class Event(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(250), nullable=False)
+    description = dbColumn(db.Text)
+    date = db.Column(db.DateTime)
+    created_by = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
+    participants = db.relationship('User', secondary=event_participants, backref='joined_events')
