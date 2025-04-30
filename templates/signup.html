@@ -20,16 +20,18 @@
 
   <main class="content">
     <h1>Sign Up</h1>
-    <form class="auth-form">
-      <label>Name:</label>
-      <input type="text" required />
-      
+
+    <!-- Updated Form with POST method and name attributes -->
+    <form class="auth-form" method="POST">
+      <label>Username:</label>
+      <input name="username" type="text" placeholder="Username" required />
+
       <label>Email:</label>
-      <input type="email" required />
-      
+      <input name="email" type="email" placeholder="Email" required />
+
       <label>Password:</label>
-      <input type="password" required />
-      
+      <input name="password" type="password" placeholder="Password" required />
+
       <button type="submit" class="btn signup-btn">Sign up</button>
     </form>
   </main>
