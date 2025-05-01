@@ -23,11 +23,11 @@
 
       <section class="actions-section">
         <div class="action-card">
-          <button class="action-btn">Create</button>
+          <a href="{{ url_for('create_event') }}" class="action-btn">Create</a>
           <div class="action-desc">Description about what you are creating</div>
         </div>
         <div class="action-card">
-          <button class="action-btn">Join</button>
+          <a href="{{ url_for('join') }}" class="action-btn">Join</a>
           <div class="action-desc">Description view about the event that is going to happen</div>
         </div>
         <div class="action-card">

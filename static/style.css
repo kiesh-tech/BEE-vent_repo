@@ -396,3 +396,72 @@ body {
 .back-btn:hover {
   background-color: #aaa;
 }
+
+.filter-page-container {
+  display: flex;
+  min-height: 80vh;
+  padding: 2rem;
+  position: relative;
+  background-color: #f0f2f5;
+}
+
+.filter-left {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 250px;
+  width: 100%;
+}
+
+.filter-form .form-group {
+  margin-bottom: 1rem;
+}
+
+.filter-form label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #002b5c;
+}
+
+.filter-form input:focus {
+  border-color: #e31b23;
+  outline: none;
+  background-color: #fff;
+}
+
+.save-filter-btn {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  background-color: #002b5c;
+  color: white;
+  padding: 12px 30px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.save-filter-btn:hover {
+  background-color: #003c80;
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .filter-page-container{
+    flex-direction: column;
+    align-items: center;
+  }
+  .save-filter-btn {
+    position: static;
+    margin-top: 2rem;
+  }
+}
+
+
+
+

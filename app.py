@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-from model import db, MMUBuilding, Room, User
+from model import db, MMUBuilding, Room, User, Event
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 
 
@@ -76,17 +76,48 @@ def logout():
 def userpage():
     return render_template('userpage.html')
 
-@app.route('/search', methods=['GET', 'POST'])
-def search():
-    query = request.form.get('query', '')
-    if query:
-        buildings = MMUBuilding.query.filter(MMUBuilding.building_name.ilike(f"%{query}%")).all()
-        rooms = Room.query.filter(Room.room_name.ilike(f"%{query}%")).all()
-    else:
-        buildings = MMUBuilding.query.all()
-        rooms = Room.query.all()
+@app.route('/join')
+def join():
+    return render_template('join.html')
+
+@app.route('/comment')
+def comment():
+    return render_template('comment.html')
+
+@app.route('/create', methods=['GET'])
+@login_required
+def create_event():
+    buildings = MMUBuilding.query.all()
+    rooms = Room.query.all()
+    return render_template('create.html', buildings=buildings, rooms=rooms)
+
+@app.route('/create', methods=['POST'])
+@login_required
+def create_event_post():
+    name = request.form['event_name']
+    date = request.form['date']
+    event_type = request.form['event_type']
+    location = request.form['location']
+    venue_code = request.form['venue_code']
+    organizer = request.form['organizer']
+    time = request.form['time']
+    capacity = request.form['capacity']
+
+    new_event = Event(
+        name=name,
+        date=date,
+        event_type=event_type,
+        location=location,
+        venue_code=venue_code,
+        organizer=organizer,
+        time=time,
+        capacity=capacity,
+        created_by=current_user.id
+    )
+    db.session.add(new_event)
+    db.session.commit()
     
-    return render_template('search_results.html', buildings=buildings, rooms=rooms)
+    return redirect(url_for('userpage'))
 
 if __name__ == '__main__':
     app.run(debug=True)
