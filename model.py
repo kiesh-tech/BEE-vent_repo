@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
 
 db = SQLAlchemy()
 
@@ -38,3 +39,16 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password_hash, password)
 
 
+
+class Comment(db.Model):
+    _tablename_ = 'comments'
+
+    comment_id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.Text, nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    event_id = db.Column(db.Integer, db.ForeignKey('events.event_id'), nullable=False)
+
+    user = db.relationship('User', backref='comments')
+    event = db.relationship('Event', backref='comments')

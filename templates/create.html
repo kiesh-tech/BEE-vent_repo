@@ -17,6 +17,16 @@
         </div>
         <div class="navbar-right">
             <a href="{{ url_for('home') }}" class="logout-btn">LOG OUT</a>
+       
+            <div class="dropdown">
+                <input type="checkbox" class="dropdown-checkbox" id="dropdown-toggle">
+                <label for="dropdown-toggle" class="dropdown-button">⋮</label>
+                
+                <div class="dropdown-content">
+                  <a href="#">Manage Account</a>
+                  <a href="delete.html">Delete Account</a>
+                </div>
+              </div>
         </div>
     </header>
 
