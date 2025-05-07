@@ -1,7 +1,7 @@
-from flask import Flask, render_template, request, redirect, url_for, session
-from model import db, MMUBuilding, Room, User, Event
+from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
-
+from model import db, MMUBuilding, Room, User, Event
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = 'beeevents3'
@@ -10,12 +10,12 @@ app.secret_key = 'beeevents3'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:Hr060491#@localhost/sql_bee_events'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Initialize the db
+# Initialize DB
 db.init_app(app)
-
 with app.app_context():
     db.create_all()
 
+# Setup Flask-Login
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
@@ -39,8 +39,7 @@ def signup():
         email = request.form['email']
         password = request.form['password']
 
-        existing_user = User.query.filter((User.username == username) | (User.email == email)).first()
-        if existing_user:
+        if User.query.filter((User.username == username) | (User.email == email)).first():
             return redirect(url_for('signup'))
 
         new_user = User(username=username, email=email)
@@ -56,14 +55,11 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-
         user = User.query.filter_by(username=username).first()
         if user and user.check_password(password):
             login_user(user)
-            return redirect(url_for('userpage')) 
-        else:
-            return redirect(url_for('login'))
-
+            return redirect(url_for('userpage'))
+        return redirect(url_for('login'))
     return render_template('login.html')
 
 @app.route('/logout')
@@ -73,14 +69,31 @@ def logout():
     return redirect(url_for('login'))
 
 @app.route('/userpage')
+@login_required
 def userpage():
-    return render_template('userpage.html')
+    my_events = Event.query.filter_by(created_by=current_user.id).all()
+    return render_template('userpage.html', my_events=my_events)
 
-@app.route('/join')
+@app.route("/join", methods=['GET', 'POST'])
+@login_required
 def join():
-    return render_template('join.html')
+    search_query = request.args.get('search', '').lower()
+    if search_query:
+        other_events = Event.query.filter(
+            Event.created_by != current_user.id,
+            db.or_(
+                Event.name.ilike(f'%{search_query}%'),
+                Event.event_type.ilike(f'%{search_query}%'),
+                Event.organizer.ilike(f'%{search_query}%')
+            )
+        ).all()
+    else:
+        other_events = Event.query.filter(Event.created_by != current_user.id).all()
+
+    return render_template("join.html", other_events=other_events)
 
 @app.route('/comment')
+@login_required
 def comment():
     return render_template('comment.html')
 
@@ -94,32 +107,37 @@ def create_event():
 @app.route('/create', methods=['POST'])
 @login_required
 def create_event_post():
-    name = request.form['event_name']
-    date = request.form['date']
-    event_type = request.form['event_type']
-    location = request.form['location']
-    venue_code = request.form['venue_code']
-    organizer = request.form['organizer']
-    time = request.form['time']
-    capacity = request.form['capacity']
+    try:
+        event_name = request.form['event_name']
+        event_type = request.form['event_type']
+        organizer = request.form['organizer']
+        date = request.form['date']
+        time_str = request.form['time']
+        event_datetime = datetime.strptime(f"{date} {time_str}", "%Y-%m-%d %H:%M")
+        maximum_capacity = int(request.form['maximum_capacity'])
+        created_by = int(request.form['created_by'])
+        building_id = request.form['building_id'] or None
+        room_id = request.form['room_id'] or None
 
-    new_event = Event(
-        name=name,
-        date=date,
-        event_type=event_type,
-        location=location,
-        venue_code=venue_code,
-        organizer=organizer,
-        time=time,
-        capacity=capacity,
-        created_by=current_user.id
-    )
-    db.session.add(new_event)
-    db.session.commit()
-    
-    return redirect(url_for('userpage'))
+        new_event = Event(
+            name=event_name,
+            event_type=event_type,
+            venue_code=None,
+            organizer=organizer,
+            event_time=event_datetime,
+            maximum_capacity=maximum_capacity,
+            created_by=created_by,
+            building_id=building_id,
+            room_id=room_id
+        )
+        db.session.add(new_event)
+        db.session.commit()
+        return redirect(url_for('userpage'))
+    except Exception as e:
+        return f"Error: {e}", 400
 
 if __name__ == '__main__':
     app.run(debug=True)
+
 
 

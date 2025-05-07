@@ -35,6 +35,32 @@
           <div class="action-desc">Description deleting events that you don't want to participate anymore</div>
         </div>
       </section>
-    
-    </body>
-    </html>
+  
+      <h2>My Created Events</h2>
+      <section class="event-section">
+        {% for event in my_events %}
+          <div class="event-card">
+            <div><strong>{{ event.name }}</strong></div>
+            <div>Type: {{ event.event_type }}</div>
+            <div>Organizer: {{ event.organizer }}</div>
+            <div>Time: {{ event.event_time.strftime('%Y-%m-%d %H:%M') }}</div>
+            <div>Capacity: {{ event.maximum_capacity }}</div>
+            <div>
+              Venue: 
+              {% if event.building_info %}
+                {{ event.building_info.building_name }}
+                {% if event.room_info %}
+                  - {{ event.room_info.room_name }}
+                {% endif %}
+              {% else %}
+                Location not set
+              {% endif %}
+            </div>
+          </div>
+        {% else %}
+          <p>No events created yet.</p>
+        {% endfor %}
+      </section>
+
+</body>
+</html>

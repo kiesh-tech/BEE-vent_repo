@@ -5,27 +5,6 @@ from datetime import datetime
 
 db = SQLAlchemy()
 
-class MMUBuilding(db.Model):
-    __tablename__ = 'mmu_buildings'
-
-    buildings_id = db.Column(db.Integer, primary_key=True, nullable=False)
-    building_name = db.Column(db.String(60), unique=True, nullable=False)
-    description = db.Column(db.String(255))
-    location_coord = db.Column(db.String(100))
-
-    rooms = db.relationship('Room', backref='building', lazy=True)
-    events = db.relationship('Event', backref='building', lazy=True)
-
-class Room(db.Model):
-    __tablename__ = 'rooms'
-
-    room_id = db.Column(db.Integer, primary_key=True)
-    room_name = db.Column(db.String(60), nullable=False)
-    room_type = db.Column(db.String(45), nullable=False)
-    building_id = db.Column(db.Integer, db.ForeignKey('mmu_buildings.buildings_id'), nullable=False)
-
-    events = db.relationship('Event', backref='room', lazy=True)
-
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
 
@@ -39,17 +18,37 @@ class User(db.Model, UserMixin):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
-    
+
+
+class MMUBuilding(db.Model):
+    __tablename__ = 'mmu_buildings'
+    id = db.Column(db.Integer, primary_key=True)
+    building_name = db.Column(db.String(100), nullable=False)
+    rooms = db.relationship('Room', backref='building', lazy=True)
+    events = db.relationship('Event', backref='building_info', lazy=True)
+
+
+class Room(db.Model):
+    __tablename__ = 'rooms'
+    room_id = db.Column(db.Integer, primary_key=True)
+    room_name = db.Column(db.String(100), nullable=False)
+    building_id = db.Column(db.Integer, db.ForeignKey('mmu_buildings.id'), nullable=False)
+    events = db.relationship('Event', backref='room_info', lazy=True)
 
 
 class Event(db.Model):
     __tablename__ = 'events'
-
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    description = db.Column(db.Text, nullable=False)
+    name = db.Column(db.String(200), nullable=False)
+    event_type = db.Column(db.String(100), nullable=False)
+    venue_code = db.Column(db.Integer, nullable=True)  # Not used anymore, optional
+    organizer = db.Column(db.String(100), nullable=False)
     event_time = db.Column(db.DateTime, nullable=False)
+    maximum_capacity = db.Column(db.Integer, nullable=False)
+    created_by = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    cancelled = db.Column(db.Boolean, default=False)
 
-    building_id = db.Column(db.Integer, db.ForeignKey('mmu_buildings.buildings_id'), nullable=True)
+
+    building_id = db.Column(db.Integer, db.ForeignKey('mmu_buildings.id'), nullable=True)
     room_id = db.Column(db.Integer, db.ForeignKey('rooms.room_id'), nullable=True)
