@@ -141,7 +141,6 @@ def cancel_event():
 @login_required
 def delete_account():
     user = User.query.get(current_user.id)
-    RSVP.query.filter_by(user_id=user.id).delete()
     Event.query.filter_by(created_by=user.id).delete()
 
     db.session.delete(user)
