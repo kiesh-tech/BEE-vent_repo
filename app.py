@@ -137,5 +137,19 @@ def cancel_event():
     return redirect(url_for('/userpage'))
     Event.query.filter_by(cancelled=False).all()
 
+@app.route('/delete_account', methods=['POST'])
+@login_required
+def delete_account():
+    user = User.query.get(current_user.id)
+    RSVP.query.filter_by(user_id=user.id).delete()
+    Event.query.filter_by(created_by=user.id).delete()
+
+    db.session.delete(user)
+    db.session.commit()
+
+    logout_user()
+    flash("Account successfully deleted!", "info")
+    return redirect(url_for('/login'))
+
 if _name_ == '_main_':
     app.run(debug=True)
