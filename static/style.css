@@ -206,11 +206,10 @@ body {
   margin-top: 1rem;
 }
 
-
 .actions-section {
   display: flex;
   justify-content: center;
-  gap: 2rem;
+  gap: 2 rem;
   padding: 3rem 1rem;
   flex-wrap: wrap;
 }
@@ -242,11 +241,11 @@ body {
 
 .action-desc {
   background-color: #ffe066;
-  padding: 1rem;
+  padding: 1 rem;
   border-radius: 6px;
   text-align: center;
   font-weight: 500;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
 .logout-btn {
@@ -265,6 +264,7 @@ body {
 .logout-btn:hover {
   background-color: #e31b23;
   transform: scale(1.05);
+
 }
 
 .section-title {
@@ -329,7 +329,7 @@ body {
   background-color: #1a1a1a;
 }
 
-.event.btn:hover {
+.event-btn:hover {
   transform: scale(1.05);
   transition: 0.3s;
 }
@@ -349,7 +349,7 @@ body {
   gap: 1rem;
 }
 
-.coment-form textarea {
+.comment-form textarea {
   padding: 1rem;
   border-radius: 6px;
   border: 1px solid #ccc;
@@ -363,10 +363,10 @@ body {
   border: none;
   padding: 12px 25px;
   border-radius: 8px;
-  font-size: bold;
+  font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3 ease;
+  transition: background-color 0.3s ease, transform 0.3s ease;
   align-self: flex-end;
   margin-top: 0.5rem;
 }
@@ -390,7 +390,7 @@ body {
   border-radius: 8px;
   text-decoration: none;
   font-weight: bold;
-  transition: background-color 0.3 ease;
+  transition: background-color 0.3s ease;
 }
 
 .back-btn:hover {
@@ -440,6 +440,11 @@ body {
   background-color: #fff;
 }
 
+#room_id {
+width: 90%; 
+max-width: 200px;
+}
+
 .save-filter-btn {
   position: absolute;
   bottom: 2rem;
@@ -461,174 +466,254 @@ body {
 }
 
 @media (max-width: 768px) {
-  .filter-page-container{
-    flex-direction: column;
-    align-items: center;
+  .filter-page-container {
+      flex-direction: column;
+      align-items: center;
   }
   .save-filter-btn {
-    position: static;
-    margin-top: 2rem;
+      position: static;
+      margin-top: 2rem;
   }
 }
 
-/*Navbar for dropdown*/
+/* Navbar for dropdown*/
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 20px;
-  background-color: #002b5c;
-  color: white;
-  align-items: center;
+display: flex;
+justify-content: space-between;
+padding: 10px 20px;
+background-color: #002b5c;
+color: white;
+align-items: center;
 }
 
 .dropdown {
-  position: relative;
-  display: inline-block;
-  margin-left: 15px;
+position: relative;
+display: inline-block;
+margin-left: 15px;
 }
 
 .dropdown-checkbox {
-  display: none;
+display: none;
 }
 
 .dropdown-button {
-  font-size: 28px;
-  color: white;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 6px;
+font-size: 28px;
+color: white;
+background: none;
+border: none;
+cursor: pointer;
+padding: 6px;
 }
 
 .dropdown-button:hover {
-  opacity: 0.8;
+opacity: 0.8;
 }
 
 .dropdown-content {
-  display: none;
-  position: absolute;
-  right: 0;
-  background-color: white;
-  min-width: 160px;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
-  border-radius: 8px;
-  padding: 10px;
-  margin-top: 5px;
-  z-index: 100;
-  opacity: 0;
-  transform: translateY(-10px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+display: none;
+position: absolute;
+right: 0;
+background-color: white;
+min-width: 160px;
+box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+border-radius: 8px;
+padding: 10px;
+margin-top: 5px;
+z-index: 100;
+opacity: 0;
+transform: translateY(-10px);
+transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .dropdown-checkbox:checked + .dropdown-button + .dropdown-content {
-  display: block;
-  opacity: 1;
-  transform: translateY(0);
+display: block;
+opacity: 1;
+transform: translateY(0);
 }
 
 .dropdown-content a,
 .dropdown-content label {
-  color: #333;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-  font-size: 12px;
-  font-weight: bold;
-  border-radius: 6px;
-  transition: background-color 0.3s, color 0.3s;
-  cursor: pointer;
+color: #333;
+padding: 12px 16px;
+text-decoration: none;
+display: block;
+font-size: 12px;
+font-weight: bold;
+border-radius: 6px;
+transition: background-color 0.3s, color 0.3s;
+cursor: pointer;
 }
 
 .dropdown-content a:hover,
 .dropdown-content label:hover {
-  background-color: #f1f1f1;
-  color: #002b5c;
+background-color: #f1f1f1;
+color: #002b5c;
 }
-
-
 
 #confirm-delete {
-  display: none;
+display: none;
 }
 
-
 .delete-btn {
-  background-color: #e63946;
-  color: white;
-  padding: 12px 24px;
-  border: none;
-  border-radius: 20px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background 0.3s ease;
+background-color: #e63946;
+color: white;
+padding: 12px 24px;
+border: none;
+border-radius: 20px;
+font-size: 16px;
+cursor: pointer;
+transition: background 0.3s ease;
 }
 
 .delete-btn:hover {
-  background-color: #c72f3b;
+background-color: #c72f3b;
 }
 
-
 .popup-overlay {
-  display: none;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
+display: none;
+position: fixed;
+top: 0; left: 0;
+width: 100%; height: 100%;
+background-color: rgba(0, 0, 0, 0.3);
+justify-content: center;
+align-items: center;
+z-index: 999;
 }
 
 #confirm-delete:checked + .popup-overlay {
-  display: flex;
+display: flex;
 }
 
-
 .popup-box {
-  background-color: #e0e0e0;
-  padding: 30px 40px;
-  border-radius: 20px;
-  text-align: center;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+background-color: #e0e0e0;
+padding: 30px 40px;
+border-radius: 20px;
+text-align: center;
+box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .popup-box p {
-  font-size: 16px;
-  margin-bottom: 20px;
+font-size: 16px;
+margin-bottom: 20px;
 }
 
-
 .popup-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
+display: flex;
+justify-content: center;
+gap: 15px;
 }
 
 .popup-buttons a,
 .popup-buttons label {
-  padding: 8px 20px;
-  border-radius: 20px;
-  font-weight: bold;
-  text-decoration: none;
-  cursor: pointer;
-  font-size: 14px;
-  color: #000;
+padding: 8px 20px;
+border-radius: 20px;
+font-weight: bold;
+text-decoration: none;
+cursor: pointer;
+font-size: 14px;
+color: #000;
 }
 
 .popup-buttons .yes {
-  background-color: #2a9d8f;
-  color: black;
+background-color: #2a9d8f;
+color: black;
 }
 
 .popup-buttons .yes:hover {
-  background-color: #21867a;
+background-color: #21867a;
 }
 
 .popup-buttons .no {
-  background-color: #e63946;
-  color: white;
+background-color: #e63946;
+color: white;
 }
 
 .popup-buttons .no:hover {
-  background-color: #c72f3b;
+background-color: #c72f3b;
+}
+
+.scroll-image-wrapper {
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+height: 150px;
+overflow: hidden;
+background-color: #fef8e6;
+z-index: 10;
+}
+
+.scroll-image-wrapper .scroll-image {
+position: absolute;
+top: 0;
+left: -300px;
+height: 150px;
+animation: scroll-image-move 10s linear infinite;
+}
+
+/* Keyframe animation for scrolling image */
+@keyframes scroll-image-move {
+0% {
+  left: -300px;
+}
+100% {
+  left: 100%;
+}
+}
+
+/*manage account*/
+body.manage-account {
+  font-family: Arial, sans-serif;
+  background-color: #f3f3f3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+
+.account-form {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.account-form h2 {
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+.account-form label {
+  display: block;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.account-form input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.account-form button {
+  margin-top: 20px;
+  width: 100%;
+  padding: 10px;
+  background-color: #f7e600;
+  color: rgb(12, 1, 1);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.account-form button:hover {
+  background-color: #e3ec64;
 }

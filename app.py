@@ -1,7 +1,7 @@
-from flask import Flask, render_template, request, redirect, url_for, session
-from model import db, MMUBuilding, Room, User
+from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
-
+from model import db, MMUBuilding, Room, User, Event
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = 'beeevents3'
@@ -10,12 +10,12 @@ app.secret_key = 'beeevents3'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:Hr060491#@localhost/sql_bee_events'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Initialize the db
+# Initialize DB
 db.init_app(app)
-
 with app.app_context():
     db.create_all()
 
+# Setup Flask-Login
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
@@ -39,8 +39,7 @@ def signup():
         email = request.form['email']
         password = request.form['password']
 
-        existing_user = User.query.filter((User.username == username) | (User.email == email)).first()
-        if existing_user:
+        if User.query.filter((User.username == username) | (User.email == email)).first():
             return redirect(url_for('signup'))
 
         new_user = User(username=username, email=email)
@@ -56,14 +55,11 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-
         user = User.query.filter_by(username=username).first()
         if user and user.check_password(password):
             login_user(user)
-            return redirect(url_for('userpage')) 
-        else:
-            return redirect(url_for('login'))
-
+            return redirect(url_for('userpage'))
+        return redirect(url_for('login'))
     return render_template('login.html')
 
 @app.route('/logout')
@@ -73,20 +69,86 @@ def logout():
     return redirect(url_for('login'))
 
 @app.route('/userpage')
+@login_required
 def userpage():
     return render_template('userpage.html')
 
-@app.route('/search', methods=['GET', 'POST'])
-def search():
-    query = request.form.get('query', '')
-    if query:
-        buildings = MMUBuilding.query.filter(MMUBuilding.building_name.ilike(f"%{query}%")).all()
-        rooms = Room.query.filter(Room.room_name.ilike(f"%{query}%")).all()
-    else:
-        buildings = MMUBuilding.query.all()
-        rooms = Room.query.all()
-    
-    return render_template('search_results.html', buildings=buildings, rooms=rooms)
+@app.route('/join')
+@login_required
+def join():
+    return render_template('join.html')
 
-if __name__ == '__main__':
+@app.route('/comment')
+@login_required
+def comment():
+    return render_template('comment.html')
+
+@app.route('/create', methods=['GET'])
+@login_required
+def create_event():
+    buildings = MMUBuilding.query.all()
+    rooms = Room.query.all()
+    return render_template('create.html', buildings=buildings, rooms=rooms)
+
+@app.route('/create', methods=['POST'])
+@login_required
+def create_event_post():
+    try:
+        event_name = request.form['event_name']
+        event_type = request.form['event_type']
+        organizer = request.form['organizer']
+        date = request.form['date']
+        time_str = request.form['time']
+        event_datetime = datetime.strptime(f"{date} {time_str}", "%Y-%m-%d %H:%M")
+        maximum_capacity = int(request.form['maximum_capacity'])
+        created_by = int(request.form['created_by'])
+        building_id = request.form['building_id'] or None
+        room_id = request.form['room_id'] or None
+
+        new_event = Event(
+            name=event_name,
+            event_type=event_type,
+            venue_code=None,
+            organizer=organizer,
+            event_time=event_datetime,
+            maximum_capacity=maximum_capacity,
+            created_by=created_by,
+            building_id=building_id,
+            room_id=room_id
+        )
+        db.session.add(new_event)
+        db.session.commit()
+        return redirect(url_for('userpage'))
+    except Exception as e:
+        return f"Error: {e}", 400
+
+@app.route('/cancel_event', methods=['POST'])
+@login_required
+def cancel_event():
+    event = Event.query.get_or_404()
+
+    if event.created_by != current_user.id:
+        flash("You are not authorised to delete this event.", "danger")
+        return redirect(url_for('/userpage'))
+
+    event.cancelled = True
+    db.session.commit()
+    flash('Event successfully cancelled!', 'info')
+    return redirect(url_for('/userpage'))
+    Event.query.filter_by(cancelled=False).all()
+
+@app.route('/delete_account', methods=['POST'])
+@login_required
+def delete_account():
+    user = User.query.get(current_user.id)
+    Event.query.filter_by(created_by=user.id).delete()
+
+    db.session.delete(user)
+    db.session.commit()
+
+    logout_user()
+    flash("Account successfully deleted!", "info")
+    return redirect(url_for('/login'))
+
+if __name__ == '_main_':
     app.run(debug=True)
