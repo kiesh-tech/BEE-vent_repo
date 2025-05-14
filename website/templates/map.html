@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Floor Map</title>
+    <style>
+        svg {width: 100%; height:auto; }
+        .booked {fill: red !important; }
+        .event {fill: blue !important; }
+        .available {fill: green !important; }
+    </style>
+</head>
+
+<body>
+    <h1>CNMX Building - CLC</h1>
+
+    <object type="image/svg+xml" data="{{ url_for('static', filename='svg/floorplan.svg') }}"></object>
+
+    <script>
+        //using java for this
+        const roomStatus = {{ room_status | tojson }};
+
+        document.getElementById("floorMap").addEventListener("load", function () { 
+            const svgDoc = this.contentDocument;
+
+            for (const [roomId, status] of Object.entries(roomStatus)) {
+                const room = svgDoc.getElementId(roomId);
+                if (room){
+                    room.setAttribute("class", status);
+                }
+            }
+        })
+    </script>
+</body>
+</html>
