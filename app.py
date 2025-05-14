@@ -1,17 +1,26 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from model import db, MMUBuilding, Room, User, Event
+from flask_migrate import Migrate
 from datetime import datetime
+import os
 
-app = Flask(__name__)
-app.secret_key = 'beeevents3'
+# Initialize Flask app
+app = Flask(__name__,
+    instance_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'instance'),
+    instance_relative_config=True)
 
-# MySQL DB connection
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:Hr060491#@localhost/sql_bee_events'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# Direct configuration in app.py (without .env file)
+app.config['SECRET_KEY'] = 'f8695bd59f8d4121b877d34ae6efeb3d'  # Directly set the SECRET_KEY
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'  # Directly set the DATABASE URI
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Disable SQLAlchemy modification tracking
 
-# Initialize DB
+# Initialize the database
 db.init_app(app)
+
+# Initialize Flask-Migrate
+migrate = Migrate(app, db)
+
 with app.app_context():
     db.create_all()
 
@@ -135,6 +144,34 @@ def create_event_post():
         return redirect(url_for('userpage'))
     except Exception as e:
         return f"Error: {e}", 400
+    
+@app.route('/cancel_event', methods=['POST'])
+@login_required
+def cancel_event():
+    event = Event.query.get_or_404()
+
+    if event.created_by != current_user.id:
+        flash("You are not authorised to delete this event.", "danger")
+        return redirect(url_for('/userpage'))
+
+    event.cancelled = True
+    db.session.commit()
+    flash('Event successfully cancelled!', 'info')
+    return redirect(url_for('/userpage'))
+    Event.query.filter_by(cancelled=False).all()
+
+@app.route('/delete_account', methods=['POST'])
+@login_required
+def delete_account():
+    user = User.query.get(current_user.id)
+    Event.query.filter_by(created_by=user.id).delete()
+
+    db.session.delete(user)
+    db.session.commit()
+
+    logout_user()
+    flash("Account successfully deleted!", "info")
+    return redirect(url_for('/login'))
 
 if __name__ == '__main__':
     app.run(debug=True)
