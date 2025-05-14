@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Bee-vents</title>
-    <link rel="stylesheet" href="style2.css"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
 </head>
 <body>
     <header class="navbar">
@@ -25,12 +25,13 @@
           <div class="dropdown-content">
             <a href="#">Manage Account</a>
             <a href="delete.html">Delete Account</a>
-          </div>
+            </div>
         </div>
-    </header>
+    </div>
+</header>
 
-    <div class="filter-page-container">
-        <div class="filter-left">
+    <div class="filter-page-container" style="display: flex; justify-content: center; gap: 40px; padding: 40px;">
+        <div class="filter-left" style="width: 400px;">
             <form class="filter-form">
                 <div class="form-group">
                     <label for="event_name">Date:</label>
@@ -90,10 +91,13 @@
         {% endfor %}
     </select>
 </div>
-
                 <button type="submit" class="save-filter-btn">Save</button>
             </form>
         </div>
+
+        <!--Map-->
+        <div class="map-container" style="flex: 1; display: flex; justify-content: center; align-items: center;">
+            <iframe src="mmu_interactive_map.html" width="1030" height="700" style="border: 1px solid #ccc; border-radius: 10px;"></iframe>
     </div>
 </body>
 </html>
