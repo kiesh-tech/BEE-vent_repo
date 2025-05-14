@@ -1,4 +1,31 @@
-{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
-  %}
-  <h1 style="text-align: center;">Home Page</h1>
-  {% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bee-vents</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="navbar-left">
+      <div class="navbar-logo">MMU</div>
+      <nav class="navbar-links">
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('about') }}">About</a>
+      </nav>
+    </div>
+    <div class="navbar-right">
+        <a href="{{ url_for('login') }}" class="btn login-btn">Login</a>
+        <a href="{{ url_for('signup') }}" class="btn signup-btn">Sign Up</a>
+    </div>
+  </header>
+
+  <main class="content">
+    <h1>Welcome to Bee-vents🐝</h1>
+    <p>This is an event planning platform where users can create and discover events in MMU.</p>
+  </main>
+
+</body>
+</html>

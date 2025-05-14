@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login - Bee-vents</title>
+  <title>Sign Up - Bee-vents</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 </head>
 <body>
@@ -19,17 +19,20 @@
   </header>
 
   <main class="content">
-    <h1>Login</h1>
+    <h1>Sign Up</h1>
 
-    <!-- Updated Form -->
+    <!-- Updated Form with POST method and name attributes -->
     <form class="auth-form" method="POST">
       <label>Username:</label>
       <input name="username" type="text" placeholder="Username" required />
 
+      <label>Email:</label>
+      <input name="email" type="email" placeholder="Email" required />
+
       <label>Password:</label>
       <input name="password" type="password" placeholder="Password" required />
 
-      <button type="submit" class="btn login-btn">Login</button>
+      <button type="submit" class="btn signup-btn">Sign up</button>
     </form>
   </main>
 
