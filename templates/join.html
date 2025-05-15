@@ -48,7 +48,10 @@
         {% endif %}
       </div>
       <a href="{{ url_for('comment', event_id=event.id) }}" class="event-btn">Comment</a>
-      <button class="event-btn dark">Join</button>
+
+      <form method="POST" action="{{ url_for('join_event', event_id=event.id) }}">
+          <button type="submit" class="event-btn dark">Join</button>
+      </form>
     </div>
   {% else %}
     <p>No events found.</p>

@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
-from model import db, MMUBuilding, Room, User, Event
+from model import db, MMUBuilding, Room, User, Event, event_participants, Notification
 from flask_migrate import Migrate
-from datetime import datetime
+from apscheduler.schedulers.background import BackgroundScheduler
+from datetime import datetime, timedelta
 import os
 
 # Initialize Flask app
@@ -33,6 +34,39 @@ login_manager.login_view = 'login'
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+def send_upcoming_event_notifications(user):
+    from datetime import datetime, timedelta
+    now = datetime.utcnow()
+    one_day = now + timedelta(days=1)
+    two_hours = now + timedelta(hours=2)
+
+    joined_events = Event.query.join(event_participants).filter(
+        event_participants.c.user_id == user.id
+    ).all()
+
+    notifications = []
+
+    for event in joined_events:
+        time_until_event = event.event_time - now
+
+        existing = Notification.query.filter_by(user_id=user.id, id=event.id).all()
+        if existing:
+            continue
+
+        if timedelta(hours=1.5) < time_until_event <= timedelta(hours=2.5):
+            msg = f"Reminder: '{event.title}' starts in 2 hours!"
+        elif timedelta(hours=23) < time_until_event <= timedelta(hours=25):
+            msg = f"Reminder: '{event.title}' is tomorrow!"
+        else:
+            continue
+
+        note = Notification(user_id=user.id, message=msg, notify_at=now, event_id=event.id)
+        db.session.add(note)
+        notifications.append(note)
+
+    db.session.commit()
+    return notifications
+
 @app.route('/')
 def home():
     return render_template('home.html')
@@ -55,6 +89,8 @@ def signup():
         new_user.set_password(password)
         db.session.add(new_user)
         db.session.commit()
+        
+        login_user(new_user)
         return redirect(url_for('userpage'))
 
     return render_template('signup.html')
@@ -80,8 +116,28 @@ def logout():
 @app.route('/userpage')
 @login_required
 def userpage():
+    send_upcoming_event_notifications(current_user)
+
     my_events = Event.query.filter_by(created_by=current_user.id).all()
-    return render_template('userpage.html', my_events=my_events)
+    joined_events = Event.query.join(event_participants).filter(
+        event_participants.c.user_id == current_user.id
+    ).all()
+    notifications = Notification.query.filter_by(user_id=current_user.id).order_by(
+        Notification.notify_at.desc()
+    ).all()
+    unread_notifications_count = len(notifications)
+
+    # Mark notifications as read
+    for notification in notifications:
+        notification.read = True
+    db.session.commit()
+
+    return render_template(
+        'userpage.html',
+        my_events=my_events,
+        joined_events=joined_events,
+        notifications=notifications, unread_notifications_count=unread_notifications_count
+    )
 
 @app.route("/join", methods=['GET', 'POST'])
 @login_required
@@ -172,6 +228,45 @@ def delete_account():
     logout_user()
     flash("Account successfully deleted!", "info")
     return redirect(url_for('/login'))
+
+@app.route('/join_event/<int:event_id>', methods=['POST'])
+@login_required
+def join_event(event_id):
+    event = Event.query.get_or_404(event_id)
+    
+    # Check if the user is already a participant
+    if current_user not in event.participants:
+        event.participants.append(current_user)
+        db.session.commit()
+
+        # Add a notification for the user who joined the event
+        # Notify 1 day before the event starts
+        notify_at = event.event_time - timedelta(days=1)
+
+        # Create the notification content
+        notification_content = f"🔔 Reminder: Your event '{event.name}' is starting soon in 1 day!"
+
+        notification = Notification(
+            content=notification_content,
+            user_id=current_user.id,
+            notify_at=notify_at
+        )
+        db.session.add(notification)
+        db.session.commit()
+
+        flash("Successfully joined the event!", "success")
+
+    return redirect(url_for('userpage'))
+
+@app.route('/mark_notifications_read', methods=['POST'])
+@login_required
+def mark_notifications_read():
+    notifications = Notification.query.filter_by(user_id=current_user.id, read=False).all()
+    for notification in notifications:
+        notification.read = True
+    db.session.commit()
+
+    return redirect(url_for('userpage'))
 
 if __name__ == '__main__':
     app.run(debug=True)

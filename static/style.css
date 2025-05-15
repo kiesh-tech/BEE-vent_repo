@@ -462,4 +462,91 @@ body {
   }
 }
 
+.flash-messages .flash {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    font-size: 14px;
+}
 
+.flash.success {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.flash.info {
+    background-color: #2196F3;
+    color: white;
+}
+
+.flash.danger {
+    background-color: #f44336;
+    color: white;
+}
+
+/* Notification Icon */
+.notification-icon {
+    position: relative;
+    cursor: pointer;
+    font-size: 40px;
+}
+
+.notification-icon .fa-bell {
+    color: #f39c12;
+}
+
+.notification-icon .badge {
+    position: absolute;
+    top: -5px;
+    right: 5px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 5px;
+    font-size: 14px;
+}
+
+.top-right-panel {
+    position: absolute;
+    top: 10px;
+    right: 100px;  /* Adjust this if it's still off-screen */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    z-index: 1000;
+}
+
+/* Notification Dropdown */
+.notification-dropdown {
+    position: absolute;
+    top: 35px;
+    right: 0;
+    transform: translateX(-50px); /* Optional: shift left if it overflows */
+    background-color: white;
+    border: 1px solid #ccc;
+    width: 250px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.notification-dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.notification-dropdown .notification-item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.notification-dropdown .notification-item p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.notification-dropdown .notification-item small {
+    color: gray;
+    font-size: 12px;
+}
