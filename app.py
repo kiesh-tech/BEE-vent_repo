@@ -54,13 +54,13 @@ def send_upcoming_event_notifications(user):
             continue
 
         if timedelta(hours=1.5) < time_until_event <= timedelta(hours=2.5):
-            msg = f"Reminder: '{event.title}' starts in 2 hours!"
+           msg = f"Reminder: '{event.name}' starts in 2 hours!"
         elif timedelta(hours=23) < time_until_event <= timedelta(hours=25):
-            msg = f"Reminder: '{event.title}' is tomorrow!"
+           msg = f"Reminder: '{event.name}' is tomorrow!"
         else:
             continue
 
-        note = Notification(user_id=user.id, message=msg, notify_at=now, event_id=event.id)
+        note = Notification(user_id=user.id, content=msg, notify_at=now)
         db.session.add(note)
         notifications.append(note)
 
