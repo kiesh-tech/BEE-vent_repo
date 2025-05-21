@@ -136,5 +136,17 @@ def delete_account():
     flash("Account successfully deleted!", "info")
     return redirect(url_for('/login'))
 
+@app.route('/map')
+def map_view():
+    room_status = {
+        "cnmx1001": "available",
+        "cnmx1002": "available",
+        "cnmx1003": "available",
+        "cnmx1004": "available",
+        "cnmx1005": "available",
+        "cnmx1006": "available",
+    }
+    return render_template("map.html", room_status=room_status)
+
 if _name_ == '_main_':
     app.run(debug=True)
