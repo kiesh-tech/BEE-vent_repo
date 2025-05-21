@@ -3,38 +3,50 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Bee-vents</title>
+    <title>Event Comments</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-  </head>
-  <body>
+</head>
+<body>
 
-  <header class="navbar">
+<header class="navbar">
     <div class="navbar-left">
-      <div class="navbar-logo">MMU</div>
-      <div class="navbar-links">
-        <a href="{{ url_for('home') }}">Home</a>
-        <a href="{{ url_for('about') }}">About</a>
-      </div>
+        <div class="navbar-logo">MMU</div>
+        <div class="navbar-links">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('about') }}">About</a>
+        </div>
     </div>
     <div class="navbar-right">
-        <a href="{{ url_for('home') }}" class="logout-btn">LOG OUT</a>
-      </div>
+        <a href="{{ url_for('logout') }}" class="logout-btn">LOG OUT</a>
     </div>
-  </header>
+</header>
 
-  <div class="back-container">
+<div class="back-container">
     <a href="{{ url_for('join') }}" class="back-btn">Back</a>
-  </div>
+</div>
 
-  <main class="content">
-    <h1 class="comments-title">Event Comments</h1>
+<main class="content">
+    <h1 class="comments-title">Comments for "{{ event.name }}"</h1>
 
-    <form class="comment-form">
-      <label for="comment">Leave a Comment</label>
-      <textarea id="comment" name="comment" rows="4" required></textarea>
-      <button type="submit" class="comment-btn">Post Comment</button>
+    <!-- Comment Form -->
+    <form class="comment-form" method="POST" action="{{ url_for('event_comment', event_id=event.id) }}">
+        <label for="comment">Leave a Comment</label>
+        <textarea id="comment" name="content" rows="4" required></textarea>
+        <button type="submit" class="comment-btn">Post Comment</button>
     </form>
-  </main>
+
+    <!-- Display Comments -->
+    <div class="comment-section">
+        {% for comment in comments %}
+            <div class="comment-box">
+                <p class="comment-meta"><strong>{{ comment.user.username }}</strong> @ {{ comment.timestamp.strftime('%Y-%m-%d %H:%M') }}</p>
+                <p class="comment-text">{{ comment.content }}</p>
+            </div>
+        {% else %}
+            <p>No comments yet. Be the first to comment!</p>
+        {% endfor %}
+    </div>
+</main>
 
 </body>
 </html>

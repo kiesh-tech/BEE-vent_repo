@@ -7,29 +7,32 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
 </head>
 <body>
+
     <header class="navbar">
         <div class="navbar-left">
             <div class="navbar-logo">MMU</div>
             <div class="navbar-links">
                 <a href="{{ url_for('home') }}">Home</a>
                 <a href="{{ url_for('about') }}">About</a>
-            </div>
+            </nav>
         </div>
         <div class="navbar-right">
             <a href="{{ url_for('home') }}" class="logout-btn">LOG OUT</a>
         </header>
         
-  <form class="account-form">
+  <main class="content">
     <h2>Manage Account</h2>
 
-    <label for="username">New Username:</label>
-    <input type="username" id="username" name="username" placeholder="Enter username">
+    <form class="auth-form" method="POST">
+    <label>New Username:</label>
+      <input name="username" type="text" placeholder="Enter new username" required />
 
-    <label for="password">New Password :</label>
-    <input type="password" id="password" name="password" placeholder="Enter new password">
+      <label>New Password:</label>
+      <input name="password" type="password" placeholder="Enter new password" required />
 
-    <button type="submit">Save changes</button>
-  </form>
+      <button type="submit" class="btn login-btn">Save Changes</button>
+    </form>
+  </main>
 
 </body>
 </html>

@@ -3,10 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Bee-vents</title>
+
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-messages">
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <script type="text/javascript">
+    setTimeout(function() {
+        $('.alert').fadeOut('slow');
+    }, 3000);  // Change 3000 for different duration (in milliseconds)
+</script>
 
     <div class="navbar">
         <div class="navbar-left">
@@ -21,13 +39,47 @@
         </div>
       </div>
 
+<!-- Notification Icon -->
+<div class="notification-icon" id="notification-icon">
+    <i class="fa fa-bell"></i>
+    <span class="badge" id="notification-count">{{ unread_notifications_count }}</span>
+</div>
+
+<!-- Notification Dropdown -->
+<div class="notification-dropdown" id="notification-dropdown" style="display: none;">
+    <ul>
+        {% for notification in notifications %}
+            <li class="notification-item">
+                <p>{{ notification.content }}</p>
+                <small>{{ notification.created_at }}</small>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<script type="text/javascript">
+    // Show/hide notification dropdown when bell icon is clicked
+    document.getElementById('notification-icon').addEventListener('click', function() {
+        const dropdown = document.getElementById('notification-dropdown');
+        dropdown.style.display = (dropdown.style.display === 'none' || dropdown.style.display === '') ? 'block' : 'none';
+    });
+
+    // Optionally, use setTimeout to auto-hide the notification dropdown after a few seconds
+    setTimeout(function() {
+        document.getElementById('notification-dropdown').style.display = 'none';
+    }, 10000);  // 10 seconds
+</script>
+
+
       <section class="actions-section">
         <div class="action-card">
+
           <a href="{{ url_for('create_event') }}" class="action-btn">Create</a>
           <div class="action-desc">Description about what you are creating</div>
         </div>
         <div class="action-card">
           <a href="{{ url_for('join') }}" class="action-btn">Join</a>
+
           <div class="action-desc">Description view about the event that is going to happen</div>
         </div>
         <div class="action-card">
@@ -35,6 +87,76 @@
           <div class="action-desc">Description deleting events that you don't want to participate anymore</div>
         </div>
       </section>
-    
-    </body>
-    </html>
+
+  
+      <h2>My Created Events</h2>
+      <section class="event-section">
+        {% for event in my_events %}
+          <div class="event-card">
+            <div><strong>{{ event.name }}</strong></div>
+            <div>Type: {{ event.event_type }}</div>
+            <div>Organizer: {{ event.organizer }}</div>
+            <div>Time: {{ event.event_time.strftime('%Y-%m-%d %H:%M') }}</div>
+            <div>Capacity: {{ event.maximum_capacity }}</div>
+            <div>
+              Venue: 
+              {% if event.building_info %}
+                {{ event.building_info.building_name }}
+                {% if event.room_info %}
+                  - {{ event.room_info.room_name }}
+                {% endif %}
+              {% else %}
+                Location not set
+              {% endif %}
+            </div>
+          </div>
+        {% else %}
+          <p>No events created yet.</p>
+        {% endfor %}
+      </section>
+
+      <h2>My Joined Events</h2>
+<section class="event-section">
+    {% for event in joined_events %}
+        <div class="event-card">
+            <div><strong>{{ event.name }}</strong></div>
+            <div>Type: {{ event.event_type }}</div>
+            <div>Organizer: {{ event.organizer }}</div>
+            <div>Time: {{ event.event_time.strftime('%Y-%m-%d %H:%M') }}</div>
+            <div>Capacity: {{ event.maximum_capacity }}</div>
+            <div>
+                Venue: 
+                {% if event.building_info %}
+                    {{ event.building_info.building_name }}
+                    {% if event.room_info %}
+                        - {{ event.room_info.room_name }}
+                    {% endif %}
+                {% else %}
+                    Location not set
+                {% endif %}
+            </div>
+        </div>
+    {% else %}
+        <p>You haven't joined any events yet.</p>
+    {% endfor %}
+</section>
+
+<script>
+function toggleDropdown() {
+  const dropdown = document.getElementById("notification-dropdown");
+  dropdown.style.display = (dropdown.style.display === "none" || dropdown.style.display === "") ? "block" : "none";
+}
+
+// Close dropdown if clicking outside
+document.addEventListener("click", function (event) {
+  const bell = document.querySelector(".notifier");
+  const dropdown = document.getElementById("notification-dropdown");
+
+  if (!bell.contains(event.target)) {
+    dropdown.style.display = "none";
+  }
+});
+</script>
+
+</body>
+</html>

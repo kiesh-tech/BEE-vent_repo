@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Bee-vents</title>
+    <title>Create Event - Bee-vents</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
 </head>
 <body>
@@ -17,87 +17,84 @@
         </div>
         <div class="navbar-right">
             <a href="{{ url_for('home') }}" class="logout-btn">LOG OUT</a>
-      
+        
         <div class="dropdown">
-          <input type="checkbox" class="dropdown-checkbox" id="dropdown-toggle">
-          <label for="dropdown-toggle" class="dropdown-button">⋮</label>
-          
-          <div class="dropdown-content">
-            <a href="#">Manage Account</a>
-            <a href="delete.html">Delete Account</a>
+                <input type="checkbox" class="dropdown-checkbox" id="dropdown-toggle">
+                <label for="dropdown-toggle" class="dropdown-button">⋮</label>
+                
+                <div class="dropdown-content">
+                    <a href="#">Manage Account</a>
+                    <a href="delete.html">Delete Account</a>
+                </div>
             </div>
         </div>
-    </div>
-</header>
+    </header>
 
     <div class="filter-page-container" style="display: flex; justify-content: center; gap: 40px; padding: 40px;">
-        <div class="filter-left" style="width: 400px;">
-            <form class="filter-form">
-                <div class="form-group">
-                    <label for="event_name">Date:</label>
-                    <input type="date" id="date" name="date">
-                </div>
+       <div class="filter-left" style="width: 400px;">
+        <form class="filter-form" method="POST" action="{{ url_for('create_event_post') }}">
+            <div class="form-group">
+                <label for="event_name">Event Name:</label>
+                <input type="text" id="event_name" name="event_name" required>
+            </div>
 
-                <div class="form-group">
-                    <label for="event-type">Event Name:</label>
-                    <input type="text" id="event_name" name="event_name" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="event_type">Event Type:</label>
-                    <input type="text" id="event_type" name="event_type" placeholder="e.g., Workshop, Seminar" required>
-                </div>
+            <div class="form-group">
+                <label for="event_type">Event Type:</label>
+                <input type="text" id="event_type" name="event_type" placeholder="e.g., Workshop, Seminar" required>
+            </div>
 
-                <div class="form-group">
-                    <label for="organizer">Organizer Name / Club:</label>
-                    <input type="text" id="organizer" name="organizer" placeholder="e.g., Tech Society">
-                </div>
+            <div class="form-group">
+                <label for="organizer">Organizer Name / Club:</label>
+                <input type="text" id="organizer" name="organizer" placeholder="e.g., Tech Society" required>
+            </div>
 
-                <div class="form-group">
-                    <label for="date">Event Date:</label>
-                    <input type="date" id="date" name="date" required>
-                </div>
+            <div class="form-group">
+                <label for="date">Event Date:</label>
+                <input type="date" id="date" name="date" required>
+            </div>
 
-                <div class="form-group">
-                    <label for="time">Event Time:</label>
-                    <input type="time" id="time" name="time" required>
-                </div>
+            <div class="form-group">
+                <label for="time">Event Time:</label>
+                <input type="time" id="time" name="time" required>
+            </div>
 
-                <div class="form-group">
-                    <label for="maximum_capacity">Capacity (Max Attendees):</label>
-                    <input type="number" id="maximum_capacity" name="maximum_capacity" min="1" required>
-                </div>
+            <div class="form-group">
+                <label for="maximum_capacity">Capacity (Max Attendees):</label>
+                <input type="number" id="maximum_capacity" name="maximum_capacity" min="1" required>
+            </div>
 
-                <input type="hidden" name="created_by" value="{{ current_user.id }}">
+            <input type="hidden" name="created_by" value="{{ current_user.id }}">
 
-<!-- Building Selection -->
-<div class="form-group">
-    <label for="building_id">Building:</label>
-    <select name="building_id" id="building_id">
-        <option value="">-- Select Building --</option>
-        {% for building in buildings %}
-            <option value="{{ building.id }}">{{ building.building_name }}</option>
-        {% endfor %}
-    </select>
-</div>
+            <!-- Building Selection -->
+            <div class="form-group">
+                <label for="building_id">Building:</label>
+                <select name="building_id" id="building_id">
+                    <option value="">-- Select Building --</option>
+                    {% for building in buildings %}
+                        <option value="{{ building.id }}">{{ building.building_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-<!-- Room Selection -->
-<div class="form-group">
-    <label for="room_id">Room (Optional):</label>
-    <select name="room_id" id="room_id">
-        <option value="">-- Select Room --</option>
-        {% for room in rooms %}
-            <option value="{{ room.room_id }}">{{ room.room_name }} ({{ room.building.building_name }})</option>
-        {% endfor %}
-    </select>
-</div>
-                <button type="submit" class="save-filter-btn">Save</button>
-            </form>
-        </div>
+            <!-- Room Selection -->
+            <div class="form-group">
+                <label for="room_id">Room (Optional):</label>
+                <select name="room_id" id="room_id">
+                    <option value="">-- Select Room --</option>
+                    {% for room in rooms %}
+                        <option value="{{ room.room_id }}">{{ room.room_name }} ({{ room.building.building_name }})</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-        <!--Map-->
+            <button type="submit" class="save-filter-btn">Create Event</button>
+        </form>
+    </div>
+
+    <!-- Map -->
         <div class="map-container" style="flex: 1; display: flex; justify-content: center; align-items: center;">
-            <iframe src="mmu_interactive_map.html" width="1030" height="700" style="border: 1px solid #ccc; border-radius: 10px;"></iframe>
+            <iframe src="{{ url_for('static', filename='mmu_interactive_map.html') }}" width="1030" height="700" style="border: 1px solid #ccc; border-radius: 10px;"></iframe>
+        </div>
     </div>
 </body>
 </html>
