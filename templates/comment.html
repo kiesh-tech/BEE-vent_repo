@@ -48,7 +48,7 @@
     <div class="comment-section">
         {% for comment in comments %}
             <div class="comment-box">
-                <p class="comment-meta"><strong>{{ comment.user.username }}</strong> @ {{ comment.timestamp.strftime('%Y-%m-%d %H:%M') }}</p>
+                <p class="comment-meta"><strong>{{ comment.user.username }}</strong> @ {{ comment.local_timestamp.strftime('%Y-%m-%d %H:%M') }}</p>
                 <p class="comment-text">{{ comment.content }}</p>
             </div>
         {% else %}

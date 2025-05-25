@@ -3,8 +3,10 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 from model import db, MMUBuilding, Room, User, Event, event_participants, Notification, Comment
 from flask_migrate import Migrate
 from apscheduler.schedulers.background import BackgroundScheduler
+import pytz
 from datetime import datetime, timedelta
 import os
+import random
 
 # Initialize Flask app
 app = Flask(__name__,
@@ -33,6 +35,21 @@ login_manager.login_view = 'login'
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+def to_malaysia_time(dt_utc):
+    if dt_utc is None:
+        return None
+    utc = pytz.utc
+    malaysia_tz = pytz.timezone('Asia/Kuala_Lumpur')
+
+    # Make sure the datetime is timezone-aware UTC
+    if dt_utc.tzinfo is None:
+        dt_utc = utc.localize(dt_utc)
+    else:
+        dt_utc = dt_utc.astimezone(utc)
+
+    # Convert to Malaysia time
+    return dt_utc.astimezone(malaysia_tz)
 
 def send_upcoming_event_notifications(user):
     from datetime import datetime, timedelta
@@ -281,6 +298,10 @@ def event_comment(event_id):
         return redirect(url_for('event_comment', event_id=event_id))
 
     comments = Comment.query.filter_by(event_id=event_id).order_by(Comment.timestamp.desc()).all()
+    
+    for comment in comments:
+        comment.local_timestamp = to_malaysia_time(comment.timestamp)
+    
     return render_template('comment.html', event=event, comments=comments)
 
 @app.route('/manage_account')
