@@ -20,6 +20,16 @@
         </div>
     </header>
 
+    {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul class="flash-messages">
+      {% for category, message in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
     <div class="filter-page-container">
         <h2>Create New Event</h2>
         <form class="filter-form" method="POST" action="{{ url_for('create_event_post') }}">

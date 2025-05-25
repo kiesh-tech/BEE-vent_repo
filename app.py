@@ -3,8 +3,10 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 from model import db, MMUBuilding, Room, User, Event, event_participants, Notification
 from flask_migrate import Migrate
 from apscheduler.schedulers.background import BackgroundScheduler
+import pytz
 from datetime import datetime, timedelta
 import os
+import random
 
 # Initialize Flask app
 app = Flask(__name__,
@@ -34,38 +36,92 @@ login_manager.login_view = 'login'
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+def to_malaysia_time(dt_utc):
+    if dt_utc is None:
+        return None
+    utc = pytz.utc
+    malaysia_tz = pytz.timezone('Asia/Kuala_Lumpur')
+
+    # Make sure the datetime is timezone-aware UTC
+    if dt_utc.tzinfo is None:
+        dt_utc = utc.localize(dt_utc)
+    else:
+        dt_utc = dt_utc.astimezone(utc)
+
+    # Convert to Malaysia time
+    return dt_utc.astimezone(malaysia_tz)
+
 def send_upcoming_event_notifications(user):
-    from datetime import datetime, timedelta
-    now = datetime.utcnow()
-    one_day = now + timedelta(days=1)
-    two_hours = now + timedelta(hours=2)
+    now_utc = datetime.utcnow()
+    now = to_malaysia_time(now_utc)
 
     joined_events = Event.query.join(event_participants).filter(
         event_participants.c.user_id == user.id
     ).all()
 
-    notifications = []
-
     for event in joined_events:
-        time_until_event = event.event_time - now
+        event_time = to_malaysia_time(event.event_time)
+        time_until_event = event_time - now
 
-        existing = Notification.query.filter_by(user_id=user.id, id=event.id).all()
-        if existing:
+        if time_until_event.total_seconds() < 0:
             continue
 
-        if timedelta(hours=1.5) < time_until_event <= timedelta(hours=2.5):
-           msg = f"Reminder: '{event.name}' starts in 2 hours!"
-        elif timedelta(hours=23) < time_until_event <= timedelta(hours=25):
-           msg = f"Reminder: '{event.name}' is tomorrow!"
-        else:
-            continue
+        notifications_to_send = []
 
-        note = Notification(user_id=user.id, content=msg, notify_at=now)
-        db.session.add(note)
-        notifications.append(note)
+        # Send "tomorrow" reminder if event is between 23h and 48h away
+        if timedelta(hours=23) < time_until_event <= timedelta(hours=48):
+            msg = f"📅 Reminder: '{event.name}' is coming up tomorrow!"
+            notifications_to_send.append(msg)
+
+        # Send "2 hours before" reminder if event is between 1h and 2h away
+        if timedelta(hours=1) < time_until_event <= timedelta(hours=2):
+            msg = f"🔔 Reminder: '{event.name}' starts in 2 hours!"
+            notifications_to_send.append(msg)
+
+        for msg in notifications_to_send:
+            existing = Notification.query.filter_by(
+                user_id=user.id, event_id=event.id, content=msg
+            ).first()
+
+            if not existing:
+                note = Notification(
+                    user_id=user.id,
+                    content=msg,
+                    event_id=event.id,
+                    notify_at=now_utc
+                )
+                db.session.add(note)
 
     db.session.commit()
-    return notifications
+
+def generate_gradient():
+    import random
+    colors = [
+        "#FFB6C1", "#87CEEB", "#90EE90", "#FFD700",
+        "#FFA07A", "#9370DB", "#00CED1", "#FF69B4",
+        "#00FA9A", "#FF6347", "#6A5ACD", "#40E0D0",
+        "#FF8C00", "#BA55D3", "#7B68EE", "#20B2AA",
+        "#F08080", "#00BFFF", "#D8BFD8", "#B0E0E6"
+    ]
+
+    shapes = [
+        "linear-gradient(135deg, {0}, {1})",
+        "linear-gradient(45deg, {0}, {1})",
+        "linear-gradient(to right, {0}, {1})",
+        "radial-gradient(circle, {0}, {1})",
+        "radial-gradient(ellipse at center, {0}, {1})",
+        "repeating-linear-gradient(45deg, {0}, {0} 10px, {1} 10px, {1} 20px)",
+        "repeating-linear-gradient(-45deg, {0}, {0} 15px, {1} 15px, {1} 30px)",
+        "repeating-radial-gradient(circle, {0}, {0} 10px, {1} 10px, {1} 20px)",
+        "repeating-radial-gradient(ellipse, {0}, {0} 15px, {1} 15px, {1} 30px)",
+        "conic-gradient(from 90deg at 50% 50%, {0}, {1})"
+    ]
+
+    c1, c2 = random.sample(colors, 2)
+    pattern = random.choice(shapes)
+    return pattern.format(c1, c2)
+
+    
 
 @app.route('/')
 def home():
@@ -111,7 +167,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('login'))
+    return redirect(url_for('home'))
 
 @app.route('/userpage')
 @login_required
@@ -122,6 +178,7 @@ def userpage():
     joined_events = Event.query.join(event_participants).filter(
         event_participants.c.user_id == current_user.id
     ).all()
+
     notifications = Notification.query.filter_by(user_id=current_user.id).order_by(
         Notification.notify_at.desc()
     ).all()
@@ -129,6 +186,7 @@ def userpage():
 
     # Mark notifications as read
     for notification in notifications:
+        notification.local_notify_at = to_malaysia_time(notification.notify_at)
         notification.read = True
     db.session.commit()
 
@@ -184,6 +242,26 @@ def create_event_post():
         building_id = request.form['building_id'] or None
         room_id = request.form['room_id'] or None
 
+        start_window = event_datetime - timedelta(hours=2)
+        end_window = event_datetime + timedelta(hours=2)
+
+        conflict_query = Event.query.filter(
+            Event.cancelled != True,
+            Event.event_time >= start_window,
+            Event.event_time <= end_window
+        )
+
+        if building_id:
+            conflict_query = conflict_query.filter(Event.building_id == building_id)
+        if room_id:
+            conflict_query = conflict_query.filter(Event.room_id == room_id)
+
+        conflict_event = conflict_query.first()
+        if conflict_event:
+            flash("❌ Building or room is already booked within 2 hours of the selected time. Please choose another time.", "danger")
+            return redirect(url_for('create_event'))
+
+
         new_event = Event(
             name=event_name,
             event_type=event_type,
@@ -193,7 +271,8 @@ def create_event_post():
             maximum_capacity=maximum_capacity,
             created_by=created_by,
             building_id=building_id,
-            room_id=room_id
+            room_id=room_id,
+            bg_gradient=generate_gradient()
         )
         db.session.add(new_event)
         db.session.commit()
@@ -201,57 +280,59 @@ def create_event_post():
     except Exception as e:
         return f"Error: {e}", 400
     
-@app.route('/cancel_event', methods=['POST'])
+@app.route('/delete_event/<int:event_id>', methods=['POST'])
 @login_required
-def cancel_event():
-    event = Event.query.get_or_404()
+def delete_event(event_id):
+    event = Event.query.get_or_404(event_id)
 
-    if event.created_by != current_user.id:
-        flash("You are not authorised to delete this event.", "danger")
-        return redirect(url_for('/userpage'))
+    if event.created_by == current_user.id:
+        Notification.query.filter_by(event_id=event.id).delete()
+        db.session.delete(event)
+        db.session.commit()
+        flash("✅ Event deleted.", "success")
+    elif current_user in event.participants:
+        event.participants.remove(current_user)  # Assuming many-to-many relationship
+        Notification.query.filter_by(user_id=current_user.id, event_id=event.id).delete()
+        db.session.commit()
+        flash("🚪 You have left the event.", "info")
+    else:
+        flash("❌ Not authorized to delete or leave this event.", "danger")
 
-    event.cancelled = True
-    db.session.commit()
-    flash('Event successfully cancelled!', 'info')
-    return redirect(url_for('/userpage'))
-    Event.query.filter_by(cancelled=False).all()
+    return redirect(url_for('userpage'))
+
+from flask_login import current_user, logout_user
+from flask import flash, redirect, url_for
 
 @app.route('/delete_account', methods=['POST'])
 @login_required
 def delete_account():
-    user = User.query.get(current_user.id)
-    Event.query.filter_by(created_by=user.id).delete()
+    user = current_user
+
+    # Cancel events created by the user
+    for event in user.created_events:
+        event.cancelled = True
+
+    # Remove user from events they joined (optional but good practice)
+    for event in user.joined_events:
+        event.participants.remove(user)
 
     db.session.delete(user)
     db.session.commit()
 
-    logout_user()
-    flash("Account successfully deleted!", "info")
-    return redirect(url_for('/login'))
+    return redirect(url_for('home'))
+
+@app.route('/manage_account')
+@login_required
+def manage_account():
+    return render_template('manage_account.html')
 
 @app.route('/join_event/<int:event_id>', methods=['POST'])
 @login_required
 def join_event(event_id):
     event = Event.query.get_or_404(event_id)
     
-    # Check if the user is already a participant
     if current_user not in event.participants:
         event.participants.append(current_user)
-        db.session.commit()
-
-        # Add a notification for the user who joined the event
-        # Notify 1 day before the event starts
-        notify_at = event.event_time - timedelta(days=1)
-
-        # Create the notification content
-        notification_content = f"🔔 Reminder: Your event '{event.name}' is starting soon in 1 day!"
-
-        notification = Notification(
-            content=notification_content,
-            user_id=current_user.id,
-            notify_at=notify_at
-        )
-        db.session.add(notification)
         db.session.commit()
 
         flash("Successfully joined the event!", "success")

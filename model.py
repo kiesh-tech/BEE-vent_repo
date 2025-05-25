@@ -18,8 +18,11 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(512), nullable=False)
 
+    created_events = db.relationship('Event', backref='creator', cascade='all, delete-orphan', passive_deletes=True)
+
     joined_events = db.relationship('Event', secondary=event_participants, backref='participants')
 
+    notifications = db.relationship('Notification', back_populates='user',  cascade='all, delete-orphan', passive_deletes=True)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -56,6 +59,7 @@ class Event(db.Model):
     created_by = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     cancelled = db.Column(db.Boolean, default=False)
+    bg_gradient = db.Column(db.String(200))
 
 
     building_id = db.Column(db.Integer, db.ForeignKey('mmu_buildings.id'), nullable=True)
@@ -70,5 +74,6 @@ class Notification(db.Model):
     read = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     notify_at = db.Column(db.DateTime, nullable=False)  # When the notification should be triggered
+    event_id = db.Column(db.Integer, db.ForeignKey('events.id'), nullable=True)  # new field
 
-    user = db.relationship('User', backref='notifications', lazy=True)
+    user = db.relationship('User', back_populates='notifications')

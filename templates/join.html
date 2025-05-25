@@ -30,7 +30,9 @@
 
 <section class="event-section">
   {% for event in other_events %}
-    <div class="event-card">
+    <div class="event-card" style="--bg-gradient: {{ event.bg_gradient }}">
+      <div class="event-header"></div>
+      <div class="event-body"></div>
       <div><strong>{{ event.name }}</strong></div>
       <div>Type: {{ event.event_type }}</div>
       <div>Organizer: {{ event.organizer }}</div>

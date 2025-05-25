@@ -294,11 +294,24 @@ body {
 }
 
 .event-card {
-  background: #fff;
-  border-radius: 8px;
-  width: 220px;
-  text-align: center;
-}
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    margin: 15px;
+    width: 300px;
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .event-header {
+    height: 120px;
+    background: var(--bg-gradient, #ccc);
+  }
+
+  .event-body {
+    padding: 15px;
+    background-color: white;
+  }
 
 .event-image {
   height: 150px;
@@ -549,4 +562,45 @@ body {
 .notification-dropdown .notification-item small {
     color: gray;
     font-size: 12px;
+}
+
+.profile-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-btn {
+  background-color: #337ce4;
+  border: none;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+.profile-btn:hover{
+  background-color: #8dbbf0;
+}
+
+.profile-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: white;
+  min-width: 160px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-radius: 8px;
+  margin-top: 5px;
+}
+
+.profile-menu a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.profile-menu a:hover {
+  background-color: #f5f5f5;
 }
