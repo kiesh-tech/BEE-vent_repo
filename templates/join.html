@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Join Events - Bee-vents</title>
+  <title>Bee-vents</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
-  <div class="navbar">
+  <header class="navbar">
     <div class="navbar-left">
       <div class="navbar-logo">MMU</div>
       <div class="navbar-links">
@@ -17,16 +17,28 @@
       </div>
     </div>
     <div class="navbar-right">
-      <a href="{{ url_for('logout') }}" class="logout-btn">LOG OUT</a>
+      <a href="{{ url_for('home') }}" class="logout-btn">LOG OUT</a>
+    
+    <div class="dropdown">
+                <input type="checkbox" class="dropdown-checkbox" id="dropdown-toggle">
+                <label for="dropdown-toggle" class="dropdown-button">⋮</label>
+                
+                <div class="dropdown-content">
+                    <a href="{{ url_for('manage_account') }}">Manage Account</a>
+                    <a href="#" id="delete-account-link">Delete Account</a>
+                </div>
     </div>
   </div>
+  </header>
 
-<h2>Join an Event</h2>
+<h2>Join An Event</h2>
 
-<form method="GET" action="{{ url_for('join') }}" class="search-form">
-  <input type="text" name="search" placeholder="Search events..." value="{{ request.args.get('search', '') }}">
-  <button type="submit">Search</button>
-</form>
+<div class="join-search-form">
+  <form method="GET" action="{{ url_for('join') }}" class="search-form">
+   <input type="text" name="search" placeholder="Search events..." value="{{ request.args.get('search', '') }}">
+   <button type="submit">Search</button>
+  </form>
+</div>
 
 <section class="event-section">
   {% for event in other_events %}
@@ -57,3 +69,5 @@
     <p>No events found.</p>
   {% endfor %}
 </section>
+</body>
+</html>

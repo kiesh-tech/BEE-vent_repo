@@ -283,5 +283,10 @@ def event_comment(event_id):
     comments = Comment.query.filter_by(event_id=event_id).order_by(Comment.timestamp.desc()).all()
     return render_template('comment.html', event=event, comments=comments)
 
+@app.route('/manage_account')
+@login_required
+def manage_account():
+    return render_template('manage_account.html')
+
 if __name__ == '__main__':
     app.run(debug=True)

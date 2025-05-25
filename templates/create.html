@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Create Event - Bee-vents</title>
+    <title>Bee-vents</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
 </head>
 <body>
@@ -23,8 +23,8 @@
                 <label for="dropdown-toggle" class="dropdown-button">⋮</label>
                 
                 <div class="dropdown-content">
-                    <a href="#">Manage Account</a>
-                    <a href="delete.html">Delete Account</a>
+                    <a href="{{ url_for('manage_account') }}">Manage Account</a>
+                    <a href="#" id="delete-account-link">Delete Account</a>
                 </div>
             </div>
         </div>
@@ -90,6 +90,17 @@
             <button type="submit" class="save-filter-btn">Create Event</button>
         </form>
     </div>
+
+    <!-- JavaScript Confirmation -->
+    <script>
+        document.getElementById('delete-account-link').addEventListener('click', function(event) {
+            event.preventDefault();
+            const confirmed = confirm('Are you sure you want to delete your account? This action cannot be undone.');
+            if (confirmed) {
+                window.location.href = "{{ url_for('delete_account') }}";
+            }
+        });
+    </script>
 
     <!-- Map -->
         <div class="map-container" style="flex: 1; display: flex; justify-content: center; align-items: center;">
