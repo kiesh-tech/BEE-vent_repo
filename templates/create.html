@@ -17,11 +17,11 @@
         </div>
         <div class="navbar-right">
             <a href="{{ url_for('home') }}" class="logout-btn">LOG OUT</a>
-        
+
         <div class="dropdown">
                 <input type="checkbox" class="dropdown-checkbox" id="dropdown-toggle">
                 <label for="dropdown-toggle" class="dropdown-button">⋮</label>
-                
+
                 <div class="dropdown-content">
                     <a href="{{ url_for('manage_account') }}">Manage Account</a>
                     <a href="#" id="delete-account-link">Delete Account</a>
@@ -31,7 +31,7 @@
     </header>
 
     <div class="filter-page-container" style="display: flex; justify-content: center; gap: 40px; padding: 40px;">
-       <div class="filter-left" style="width: 400px;">
+       <div class="filter-left" style="width: 850px;">
         <form class="filter-form" method="POST" action="{{ url_for('create_event_post') }}">
             <div class="form-group">
                 <label for="event_name">Event Name:</label>
@@ -101,11 +101,5 @@
             }
         });
     </script>
-
-    <!-- Map -->
-        <div class="map-container" style="flex: 1; display: flex; justify-content: center; align-items: center;">
-            <iframe src="{{ url_for('static', filename='mmu_interactive_map.html') }}" width="1030" height="700" style="border: 1px solid #ccc; border-radius: 10px;"></iframe>
-        </div>
-    </div>
 </body>
 </html>
