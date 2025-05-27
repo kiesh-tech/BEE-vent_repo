@@ -1,12 +1,23 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
-from model import db, MMUBuilding, Room, User, Event, event_participants, Notification
+from model import db, MMUBuilding, Room, User, Event, event_participants, Notification, Comment
 from flask_migrate import Migrate
 from apscheduler.schedulers.background import BackgroundScheduler
 import pytz
 from datetime import datetime, timedelta
 import os
 import random
+from sqlalchemy import event
+from sqlalchemy.engine import Engine
+import sqlite3
+
+# Enable foreign key enforcement for SQLite
+@event.listens_for(Engine, "connect")
+def enable_sqlite_foreign_keys(dbapi_connection, connection_record):
+    if isinstance(dbapi_connection, sqlite3.Connection):  # For SQLite only
+        cursor = dbapi_connection.cursor()
+        cursor.execute("PRAGMA foreign_keys=ON;")
+        cursor.close()
 
 # Initialize Flask app
 app = Flask(__name__,
@@ -215,10 +226,16 @@ def join():
 
     return render_template("join.html", other_events=other_events)
 
-@app.route('/comment')
+@app.route('/comment/<int:event_id>', methods=['GET'])
 @login_required
-def comment():
-    return render_template('comment.html')
+def comment(event_id):
+    event = Event.query.get_or_404(event_id)
+    comments = Comment.query.filter_by(event_id=event_id).order_by(Comment.timestamp.desc()).all()
+
+    for comment in comments:
+        comment.local_timestamp = to_malaysia_time(comment.timestamp)
+
+    return render_template('comment.html', event=event, comments=comments)
 
 @app.route('/create', methods=['GET'])
 @login_required
@@ -285,6 +302,8 @@ def create_event_post():
 def delete_event(event_id):
     event = Event.query.get_or_404(event_id)
 
+    Comment.query.filter_by(event_id=event.id).delete()
+
     if event.created_by == current_user.id:
         Notification.query.filter_by(event_id=event.id).delete()
         db.session.delete(event)
@@ -308,6 +327,8 @@ from flask import flash, redirect, url_for
 def delete_account():
     user = current_user
 
+    Comment.query.filter_by(user_id=current_user.id).delete()
+
     # Cancel events created by the user
     for event in user.created_events:
         event.cancelled = True
@@ -319,6 +340,7 @@ def delete_account():
     db.session.delete(user)
     db.session.commit()
 
+    logout_user()
     return redirect(url_for('home'))
 
 @app.route('/manage_account')
@@ -348,6 +370,25 @@ def mark_notifications_read():
     db.session.commit()
 
     return redirect(url_for('userpage'))
+
+@app.route('/event/<int:event_id>/comment', methods=['GET', 'POST'])
+@login_required
+def event_comment(event_id):
+    event = Event.query.get_or_404(event_id)
+
+    if request.method == 'POST':
+        content = request.form['content']
+        comment = Comment(content=content, user_id=current_user.id, event_id=event_id)
+        db.session.add(comment)
+        db.session.commit()
+        return redirect(url_for('event_comment', event_id=event_id))
+
+    comments = Comment.query.filter_by(event_id=event_id).order_by(Comment.timestamp.desc()).all()
+    
+    for comment in comments:
+        comment.local_timestamp = to_malaysia_time(comment.timestamp)
+    
+    return render_template('comment.html', event=event, comments=comments)
 
 if __name__ == '__main__':
     app.run(debug=True)
