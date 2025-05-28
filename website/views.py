@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template
 from flask_login import current_user
 from flask_login import login_required, current_user
+from flask import request 
+
 
 
 views = Blueprint('views', __name__)
@@ -147,6 +149,23 @@ def map_view():
         "cnmx1006": "available",
     }
     return render_template("map.html", room_status=room_status)
+
+
+@app.route('/map/<room_id>', methods=['GET', 'POST'])
+def room_details(room_id):
+    if request.method == 'POST':
+        pax = request.form['pax']
+        date = request.form['date']
+        time = request.form['time']
+
+        new_booking = Booking(room_id=room_id, pax=int(pax), date=date, time=time)
+        db.session.add(new_booking)
+        db.session.commit()
+
+    return render_template('book_room.html', room_id=room_id)
+
+def show_map():
+    return render_template('map.html')
 
 if _name_ == '_main_':
     app.run(debug=True)

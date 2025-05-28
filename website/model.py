@@ -49,5 +49,13 @@ class Event(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     cancelled = db.Column(db.Boolean, default=False)
 
+    class Booking(db.Model):
+        id = db.Column(db.Integer, primary_key=True)
+        room_id = db.Column(db.String(50), nullable=False)
+        pax = db.Column(db.Integer, nullable=False)
+        date = db.Column(db.String(20), nullable=False)
+        time = db.Column(db.String(20), nullable=False)
+        
+
     building_id = db.Column(db.Integer, db.ForeignKey('mmu_buildings.id'), nullable=True)
     room_id = db.Column(db.Integer, db.ForeignKey('rooms.room_id'), nullable=True)
