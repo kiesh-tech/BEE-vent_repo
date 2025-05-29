@@ -167,5 +167,9 @@ def room_details(room_id):
 def show_map():
     return render_template('map.html')
 
+@views.route('/book-room/<room_id>', methods=['GET', 'POST'])
+def book_room(room_id):
+    return render_template('book_room.html', room_id=room_id)
+
 if _name_ == '_main_':
     app.run(debug=True)
