@@ -242,7 +242,8 @@ def comment(event_id):
 def create_event():
     buildings = MMUBuilding.query.all()
     rooms = Room.query.all()
-    return render_template('create.html', buildings=buildings, rooms=rooms)
+    selected_building = request.args.get('building')  # NEW LINE
+    return render_template('create.html', buildings=buildings, rooms=rooms, selected_building=selected_building)
 
 @app.route('/create', methods=['POST'])
 @login_required
@@ -343,10 +344,44 @@ def delete_account():
     logout_user()
     return redirect(url_for('home'))
 
-@app.route('/manage_account')
+@app.route('/change_username', methods=['GET', 'POST'])
 @login_required
-def manage_account():
-    return render_template('manage_account.html')
+def change_username():
+     if request.method == 'POST':
+        new_username = request.form['new_username'].strip()
+        if new_username and new_username != current_user.username:
+            existing_user = User.query.filter_by(username=new_username).first()
+            if existing_user:
+                flash("❌ Username already taken.", "danger")
+            else:
+                current_user.username = new_username
+                db.session.commit()
+                flash("✅ Username updated successfully.", "success")
+                return redirect(url_for('userpage'))
+        else:
+            flash("⚠️ Invalid or same username.", "warning")
+
+     return render_template('change_username.html')
+
+@app.route('/change_password', methods=['GET', 'POST'])
+@login_required
+def change_password():
+     if request.method == 'POST':
+        current_password = request.form['current_password']
+        new_password = request.form['new_password']
+        confirm_password = request.form['confirm_password']
+
+        if not current_user.check_password(current_password):
+            flash("❌ Current password is incorrect.", "danger")
+        elif new_password != confirm_password:
+            flash("❌ New passwords do not match.", "danger")
+        else:
+            current_user.set_password(new_password)
+            db.session.commit()
+            flash("✅ Password updated successfully.", "success")
+            return redirect(url_for('userpage'))
+
+     return render_template('change_password.html')
 
 @app.route('/join_event/<int:event_id>', methods=['POST'])
 @login_required
@@ -389,6 +424,28 @@ def event_comment(event_id):
         comment.local_timestamp = to_malaysia_time(comment.timestamp)
     
     return render_template('comment.html', event=event, comments=comments)
+
+@app.route('/mmu_map')
+def mmu_map():
+    return render_template('mmu_map.html')
+
+@app.route('/building')
+def building_select():
+    return render_template('map_building.html')
+
+@app.route('/building/<building_name>')
+def building_page(building_name):
+    building_name = building_name.lower()
+    if building_name in ['fci', 'fcm', 'fom']:
+        return render_template(f'{building_name}.html')  # SVG maps
+    else:
+        return redirect(url_for('create_event', building=building_name))
+
+@app.route('/select_room', methods=['POST'])
+def select_room():
+    building = request.form.get('building')
+    room = request.form.get('room')
+    return redirect(url_for('create_event', building=building, room=room))
 
 if __name__ == '__main__':
     app.run(debug=True)
