@@ -304,10 +304,5 @@ def event_comment(event_id):
     
     return render_template('comment.html', event=event, comments=comments)
 
-@app.route('/manage_account')
-@login_required
-def manage_account():
-    return render_template('manage_account.html')
-
 if __name__ == '__main__':
     app.run(debug=True)
