@@ -662,3 +662,7 @@ body.manage-account {
   border-radius: 6px;
   cursor: pointer;
 }
+
+.room-available { fill: #4CAF50; }   /* green */
+.room-booked { fill: #F44336; }      /* red */
+.room-event { fill: #2196F3; }       /* blue */
