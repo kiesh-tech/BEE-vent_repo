@@ -135,6 +135,11 @@ def create_event_post():
         return redirect(url_for('userpage'))
     except Exception as e:
         return f"Error: {e}", 400
+    
+
+@app.route('/map')
+def map():
+    return render_template('map.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
