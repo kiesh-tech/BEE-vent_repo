@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bee-vents</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}" />
+  </head>
+  <style>
+
+    svg {
+      width: 90%;
+      max-width: 800px;
+      border: 2px solid #444;
+      margin: 20px auto;
+      background-color: #f5f5f5;
+    }
+
+    .visible {
+      display: block;
+    }
+
+    .area {
+      fill: #d0e4f7;
+      stroke: #333;
+      stroke-width: 2;
+      transition: fill 0.2s;
+    }
+
+    .area:hover {
+      fill: #4fc3f7;
+      cursor: pointer;
+    }
+
+    text {
+      font-size: 14px;
+      pointer-events: none;
+    }
+
+    .modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 300px;
+      text-align: left;
+      position: relative;
+    }
+
+    .close {
+      position: absolute;
+      top: 10px; right: 15px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<header class="navbar">
+  <div class="navbar-left">
+    <div class="navbar-logo">MMU</div>
+    <div class="navbar-links">
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('about') }}">About</a>
+    </div>
+  </div>
+  <div class="navbar-right">
+    <a href="{{ url_for('home') }}" class="logout-btn">LOG OUT</a>
+    <div class="dropdown">
+      <input type="checkbox" class="dropdown-checkbox" id="dropdown-toggle">
+      <label for="dropdown-toggle" class="dropdown-button">⋮</label>
+      <div class="dropdown-content">
+        <a href="{{ url_for('manage_account') }}">Manage Account</a>
+        <a href="#" id="delete-account-link">Delete Account</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- Floor Plan SVG -->
+<svg id="groundFloor" viewBox="0 0 1000 300" class="visible" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background floor -->
+  <rect x="0" y="0" width="1000" height="300" fill="#eaeaea" />
+
+  <!-- room 1001 -->
+  <rect id="room1001" class="area" x="20" y="100" width="150" height="100" />
+  <text x="65" y="160">1001</text>
+
+  <!-- room 1002 -->
+  <rect id="room1002" class="area" x="190" y="100" width="150" height="100" />
+  <text x="235" y="160">1002</text>
+
+  <!-- room 1003 -->
+  <rect id="room1003" class="area" x="360" y="100" width="150" height="100" />
+  <text x="405" y="160">1003</text>
+
+  <!-- room 1004 -->
+  <rect id="room1004" class="area" x="530" y="100" width="150" height="100" />
+  <text x="575" y="160">1004</text>
+
+  <!-- room 1005 -->
+  <rect id="room1005" class="area" x="700" y="100" width="150" height="100" />
+  <text x="745" y="160">1005</text>
+
+  <!--room 1006 -->
+  <rect id="room1006" class="area" x="870" y="100" width="110" height="100" />
+  <text x="905" y="160">1006</text>
+</svg>
+
+<!-- Add this below your SVG or inside <main> -->
+<div id="roomModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="document.getElementById('roomModal').style.display='none'">&times;</span>
+    <h2 id="modalTitle">Room Info</h2>
+    <p id="modalContent">Room details go here...</p>
+    <a id="goBtn" class="action-btn" href="#">Go to Room</a>
+  </div>
+</div>
+
+
+</main>
+
+<script>
+
+const areaInfo = {
+  room1001: { description: "Room 1001", url: "/room/1001" },
+  room1002: { description: "Room 1002", url: "/room/1002" },
+  room1003: { description: "Room 1003", url: "/room/1003" },
+  room1004: { description: "Room 1004", url: "/room/1004" },
+  room1005: { description: "Room 1005", url: "/room/1005" },
+  room1006: { description: "Room 1006", url: "/room/1006" }
+};
+
+Object.keys(areaInfo).forEach(id => {
+  document.getElementById(id).addEventListener("click", () => {
+    const info = areaInfo[id];
+    document.getElementById("modalTitle").innerText = info.description;
+    document.getElementById("modalContent").innerText = info.description + " details.";
+    document.getElementById("goBtn").href = info.url;
+    document.getElementById("roomModal").style.display = "flex";
+  });
+});
+
+
+window.addEventListener('click', function(event) {
+  const modal = document.getElementById('roomModal');
+  if (event.target === modal) {
+    modal.style.display = 'none';
+  }
+});
+
+
+</script>
+
+</body>
+</html>
