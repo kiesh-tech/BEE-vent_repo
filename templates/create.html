@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Bee-vents</title>
+    <title>Create Event - Bee-vents</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
 </head>
 <body>
@@ -16,12 +16,22 @@
             </div>
         </div>
         <div class="navbar-right">
-            <a href="{{ url_for('home') }}" class="logout-btn">LOG OUT</a>
+            <a href="{{ url_for('logout') }}" class="logout-btn">LOG OUT</a>
         </div>
     </header>
 
-    <div class="filter-page-container" style="display: flex; justify-content: center; gap: 40px; padding: 40px;">
-       <div class="filter-left" style="width: 850px;">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul class="flash-messages">
+      {% for category, message in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+    <div class="filter-page-container">
+        <h2>Create New Event</h2>
         <form class="filter-form" method="POST" action="{{ url_for('create_event_post') }}">
             <div class="form-group">
                 <label for="event_name">Event Name:</label>
@@ -38,6 +48,7 @@
                 <input type="text" id="organizer" name="organizer" placeholder="e.g., Tech Society" required>
             </div>
 
+            <!-- Separate date and time inputs -->
             <div class="form-group">
                 <label for="date">Event Date:</label>
                 <input type="date" id="date" name="date" required>
@@ -82,3 +93,7 @@
     </div>
 </body>
 </html>
+
+
+
+

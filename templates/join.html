@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bee-vents</title>
+  <title>Join Events - Bee-vents</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
-  <header class="navbar">
+  <div class="navbar">
     <div class="navbar-left">
       <div class="navbar-logo">MMU</div>
       <div class="navbar-links">
@@ -17,11 +17,11 @@
       </div>
     </div>
     <div class="navbar-right">
-      <a href="{{ url_for('home') }}" class="logout-btn">LOG OUT</a>
+      <a href="{{ url_for('logout') }}" class="logout-btn">LOG OUT</a>
     </div>
-  </header>
+  </div>
 
-<h2>Join An Event</h2>
+<h2>Join an Event</h2>
 
 <div class="join-search-form">
   <form method="GET" action="{{ url_for('join') }}" class="search-form">
@@ -30,9 +30,12 @@
   </form>
 </div>
 
+
 <section class="event-section">
   {% for event in other_events %}
-    <div class="event-card">
+    <div class="event-card" style="--bg-gradient: {{ event.bg_gradient }}">
+      <div class="event-header"></div>
+      <div class="event-body"></div>
       <div><strong>{{ event.name }}</strong></div>
       <div>Type: {{ event.event_type }}</div>
       <div>Organizer: {{ event.organizer }}</div>
@@ -49,7 +52,7 @@
           Location not set
         {% endif %}
       </div>
-      <a href="{{ url_for('event_comment', event_id=event.id) }}" class="event-btn">Comment</a>
+      <a href="{{ url_for('comment', event_id=event.id) }}" class="event-btn">Comment</a>
 
       <form method="POST" action="{{ url_for('join_event', event_id=event.id) }}">
           <button type="submit" class="event-btn dark">Join</button>
@@ -59,5 +62,3 @@
     <p>No events found.</p>
   {% endfor %}
 </section>
-</body>
-</html>

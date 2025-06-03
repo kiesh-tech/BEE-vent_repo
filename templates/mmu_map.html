@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_4b3aeb8cc3a3c58cab89d18dfd0c8a50 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_4b3aeb8cc3a3c58cab89d18dfd0c8a50" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_4b3aeb8cc3a3c58cab89d18dfd0c8a50 = L.map(
+                "map_4b3aeb8cc3a3c58cab89d18dfd0c8a50",
+                {
+                    center: [2.9277816137707204, 101.64190123388995],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 17,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_ccd3b12893524272f5d8d44234402aa3 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_ccd3b12893524272f5d8d44234402aa3.addTo(map_4b3aeb8cc3a3c58cab89d18dfd0c8a50);
+        
+    
+            var marker_aff2b457c77c6f96359f21e4f52bad96 = L.marker(
+                [2.929218001348703, 101.64243684179341],
+                {
+}
+            ).addTo(map_4b3aeb8cc3a3c58cab89d18dfd0c8a50);
+        
+    
+            var icon_434478ece3e410787c29a0fd0f8eade6 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "university",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_78dcfad03ed1c83e00e4dfc7ded49fb1 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_44bb962b06cd29615ef274e5aaf11929 = $(`<div id="html_44bb962b06cd29615ef274e5aaf11929" style="width: 100.0%; height: 100.0%;">     <div style="text-align: center;">         <h4>DTC</h4>         <a href="/create?building=dtc" target="_top" style="             display: inline-block;             padding: 6px 12px;             margin-top: 5px;             background-color: #007bff;             color: white;             text-decoration: none;             border-radius: 5px;             font-size: 14px;">             Click         </a>     </div>     </div>`)[0];
+                popup_78dcfad03ed1c83e00e4dfc7ded49fb1.setContent(html_44bb962b06cd29615ef274e5aaf11929);
+            
+        
+
+        marker_aff2b457c77c6f96359f21e4f52bad96.bindPopup(popup_78dcfad03ed1c83e00e4dfc7ded49fb1)
+        ;
+
+        
+    
+    
+            marker_aff2b457c77c6f96359f21e4f52bad96.bindTooltip(
+                `<div>
+                     DTC
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_aff2b457c77c6f96359f21e4f52bad96.setIcon(icon_434478ece3e410787c29a0fd0f8eade6);
+            
+    
+            var marker_741dcbf840dbf44a5c06d88e445bdac6 = L.marker(
+                [2.9291654299019148, 101.64057166571482],
+                {
+}
+            ).addTo(map_4b3aeb8cc3a3c58cab89d18dfd0c8a50);
+        
+    
+            var icon_34471b0ab5ed38f77bddfa86d9cb654c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "university",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_1caa353a671df4412f732873b97c431f = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_a1108768fedacaf334f597f9fb14c50e = $(`<div id="html_a1108768fedacaf334f597f9fb14c50e" style="width: 100.0%; height: 100.0%;">     <div style="text-align: center;">         <h4>FCI</h4>         <a href="/building/fci" target="_top" style="             display: inline-block;             padding: 6px 12px;             margin-top: 5px;             background-color: #007bff;             color: white;             text-decoration: none;             border-radius: 5px;             font-size: 14px;">             Click         </a>     </div>     </div>`)[0];
+                popup_1caa353a671df4412f732873b97c431f.setContent(html_a1108768fedacaf334f597f9fb14c50e);
+            
+        
+
+        marker_741dcbf840dbf44a5c06d88e445bdac6.bindPopup(popup_1caa353a671df4412f732873b97c431f)
+        ;
+
+        
+    
+    
+            marker_741dcbf840dbf44a5c06d88e445bdac6.bindTooltip(
+                `<div>
+                     FCI
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_741dcbf840dbf44a5c06d88e445bdac6.setIcon(icon_34471b0ab5ed38f77bddfa86d9cb654c);
+            
+    
+            var marker_2ae0dbb5ce67f619136b9dda143a95ad = L.marker(
+                [2.9300947248194165, 101.64130911229677],
+                {
+}
+            ).addTo(map_4b3aeb8cc3a3c58cab89d18dfd0c8a50);
+        
+    
+            var icon_97f1346e47e7145f881ad3d34233222f = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "university",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_dafe7c31d101f34d094dcb65b9361934 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_9e3dcfbf0eea9af5cee432fb01c23d65 = $(`<div id="html_9e3dcfbf0eea9af5cee432fb01c23d65" style="width: 100.0%; height: 100.0%;">     <div style="text-align: center;">         <h4>FOM</h4>         <a href="/building/fom" target="_top" style="             display: inline-block;             padding: 6px 12px;             margin-top: 5px;             background-color: #007bff;             color: white;             text-decoration: none;             border-radius: 5px;             font-size: 14px;">             Click         </a>     </div>     </div>`)[0];
+                popup_dafe7c31d101f34d094dcb65b9361934.setContent(html_9e3dcfbf0eea9af5cee432fb01c23d65);
+            
+        
+
+        marker_2ae0dbb5ce67f619136b9dda143a95ad.bindPopup(popup_dafe7c31d101f34d094dcb65b9361934)
+        ;
+
+        
+    
+    
+            marker_2ae0dbb5ce67f619136b9dda143a95ad.bindTooltip(
+                `<div>
+                     FOM
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_2ae0dbb5ce67f619136b9dda143a95ad.setIcon(icon_97f1346e47e7145f881ad3d34233222f);
+            
+    
+            var marker_0337b61c273da96da9fadf3459fea5c6 = L.marker(
+                [2.92660434513222, 101.64118197322395],
+                {
+}
+            ).addTo(map_4b3aeb8cc3a3c58cab89d18dfd0c8a50);
+        
+    
+            var icon_c05aae7e27957847d96cfb9b68cc349c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "university",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_eba58d9abd112983dc01bc763cff7ff8 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_cb5cfc0f6f8baf0838ff393082d83880 = $(`<div id="html_cb5cfc0f6f8baf0838ff393082d83880" style="width: 100.0%; height: 100.0%;">     <div style="text-align: center;">         <h4>FOE</h4>         <a href="/create?building=foe" target="_top" style="             display: inline-block;             padding: 6px 12px;             margin-top: 5px;             background-color: #007bff;             color: white;             text-decoration: none;             border-radius: 5px;             font-size: 14px;">             Click         </a>     </div>     </div>`)[0];
+                popup_eba58d9abd112983dc01bc763cff7ff8.setContent(html_cb5cfc0f6f8baf0838ff393082d83880);
+            
+        
+
+        marker_0337b61c273da96da9fadf3459fea5c6.bindPopup(popup_eba58d9abd112983dc01bc763cff7ff8)
+        ;
+
+        
+    
+    
+            marker_0337b61c273da96da9fadf3459fea5c6.bindTooltip(
+                `<div>
+                     FOE
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_0337b61c273da96da9fadf3459fea5c6.setIcon(icon_c05aae7e27957847d96cfb9b68cc349c);
+            
+    
+            var marker_8e6c3d2e642b6018d93d697730f7d255 = L.marker(
+                [2.9262734371401344, 101.6431866497752],
+                {
+}
+            ).addTo(map_4b3aeb8cc3a3c58cab89d18dfd0c8a50);
+        
+    
+            var icon_f593459ab47114e5827255c6370514b4 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "university",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_50efc13455a59b803850222f7be1971a = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_8d558e526a4d92a039e6880b51e48ad9 = $(`<div id="html_8d558e526a4d92a039e6880b51e48ad9" style="width: 100.0%; height: 100.0%;">     <div style="text-align: center;">         <h4>FCM</h4>         <a href="/building/fcm" target="_top" style="             display: inline-block;             padding: 6px 12px;             margin-top: 5px;             background-color: #007bff;             color: white;             text-decoration: none;             border-radius: 5px;             font-size: 14px;">             Click         </a>     </div>     </div>`)[0];
+                popup_50efc13455a59b803850222f7be1971a.setContent(html_8d558e526a4d92a039e6880b51e48ad9);
+            
+        
+
+        marker_8e6c3d2e642b6018d93d697730f7d255.bindPopup(popup_50efc13455a59b803850222f7be1971a)
+        ;
+
+        
+    
+    
+            marker_8e6c3d2e642b6018d93d697730f7d255.bindTooltip(
+                `<div>
+                     FCM
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_8e6c3d2e642b6018d93d697730f7d255.setIcon(icon_f593459ab47114e5827255c6370514b4);
+            
+    
+            var marker_e5d1f31a96350da76e0e1e7251d146a0 = L.marker(
+                [2.928231851893708, 101.6424075166555],
+                {
+}
+            ).addTo(map_4b3aeb8cc3a3c58cab89d18dfd0c8a50);
+        
+    
+            var icon_95e98675e174ad45b6eac77ebd6ce545 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "university",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_771925d5b0083d5e89bab999765e221c = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_e87eeb71d87d998224d1173b6ca79ab2 = $(`<div id="html_e87eeb71d87d998224d1173b6ca79ab2" style="width: 100.0%; height: 100.0%;">     <div style="text-align: center;">         <h4>MPH</h4>         <a href="/create?building=mph" target="_top" style="             display: inline-block;             padding: 6px 12px;             margin-top: 5px;             background-color: #007bff;             color: white;             text-decoration: none;             border-radius: 5px;             font-size: 14px;">             Click         </a>     </div>     </div>`)[0];
+                popup_771925d5b0083d5e89bab999765e221c.setContent(html_e87eeb71d87d998224d1173b6ca79ab2);
+            
+        
+
+        marker_e5d1f31a96350da76e0e1e7251d146a0.bindPopup(popup_771925d5b0083d5e89bab999765e221c)
+        ;
+
+        
+    
+    
+            marker_e5d1f31a96350da76e0e1e7251d146a0.bindTooltip(
+                `<div>
+                     MPH
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_e5d1f31a96350da76e0e1e7251d146a0.setIcon(icon_95e98675e174ad45b6eac77ebd6ce545);
+            
+    
+            var marker_b6899d16d973d0199b1f488966c9c9e3 = L.marker(
+                [2.9280263906308175, 101.64424507685604],
+                {
+}
+            ).addTo(map_4b3aeb8cc3a3c58cab89d18dfd0c8a50);
+        
+    
+            var icon_c35e68b703c57048074794390d2f4597 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "university",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_5bb0fc4d0103e88ccd742238351f00e8 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_cbbbb2395ee409471e4411e3cda7b093 = $(`<div id="html_cbbbb2395ee409471e4411e3cda7b093" style="width: 100.0%; height: 100.0%;">     <div style="text-align: center;">         <h4>STADIUM</h4>         <a href="/create?building=stadium" target="_top" style="             display: inline-block;             padding: 6px 12px;             margin-top: 5px;             background-color: #007bff;             color: white;             text-decoration: none;             border-radius: 5px;             font-size: 14px;">             Click         </a>     </div>     </div>`)[0];
+                popup_5bb0fc4d0103e88ccd742238351f00e8.setContent(html_cbbbb2395ee409471e4411e3cda7b093);
+            
+        
+
+        marker_b6899d16d973d0199b1f488966c9c9e3.bindPopup(popup_5bb0fc4d0103e88ccd742238351f00e8)
+        ;
+
+        
+    
+    
+            marker_b6899d16d973d0199b1f488966c9c9e3.bindTooltip(
+                `<div>
+                     STADIUM
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b6899d16d973d0199b1f488966c9c9e3.setIcon(icon_c35e68b703c57048074794390d2f4597);
+            
+    
+            var marker_f31c8eaa8ab0589d6497852a7dc8ba2a = L.marker(
+                [3.0459, 101.6163],
+                {
+}
+            ).addTo(map_4b3aeb8cc3a3c58cab89d18dfd0c8a50);
+        
+    
+            var icon_920ae42030c0ced22e58186329851da5 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "university",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_ad81d9d3f160bb8a12d03381e350490f = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_b3adee4d1ebb3f4fdad7fe0743ab682f = $(`<div id="html_b3adee4d1ebb3f4fdad7fe0743ab682f" style="width: 100.0%; height: 100.0%;">     <div style="text-align: center;">         <h4>SPORTS COMPLEX</h4>         <a href="/create?building=sports_complex" target="_top" style="             display: inline-block;             padding: 6px 12px;             margin-top: 5px;             background-color: #007bff;             color: white;             text-decoration: none;             border-radius: 5px;             font-size: 14px;">             Click         </a>     </div>     </div>`)[0];
+                popup_ad81d9d3f160bb8a12d03381e350490f.setContent(html_b3adee4d1ebb3f4fdad7fe0743ab682f);
+            
+        
+
+        marker_f31c8eaa8ab0589d6497852a7dc8ba2a.bindPopup(popup_ad81d9d3f160bb8a12d03381e350490f)
+        ;
+
+        
+    
+    
+            marker_f31c8eaa8ab0589d6497852a7dc8ba2a.bindTooltip(
+                `<div>
+                     SPORTS COMPLEX
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_f31c8eaa8ab0589d6497852a7dc8ba2a.setIcon(icon_920ae42030c0ced22e58186329851da5);
+            
+    
+            var marker_be27199eb26b9a3d1bd24d07ce27dc6f = L.marker(
+                [2.9286172521341705, 101.64366774108161],
+                {
+}
+            ).addTo(map_4b3aeb8cc3a3c58cab89d18dfd0c8a50);
+        
+    
+            var icon_390e400b32eec2b785f8790c4109a03b = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "university",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_50c2f59073eb53177eb8fed12ec2a55e = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_8194b2e879554ea0911449a1db43cf32 = $(`<div id="html_8194b2e879554ea0911449a1db43cf32" style="width: 100.0%; height: 100.0%;">     <div style="text-align: center;">         <h4>SWIMMING POOL COMPLEX</h4>         <a href="/create?building=swimming_pool_complex" target="_top" style="             display: inline-block;             padding: 6px 12px;             margin-top: 5px;             background-color: #007bff;             color: white;             text-decoration: none;             border-radius: 5px;             font-size: 14px;">             Click         </a>     </div>     </div>`)[0];
+                popup_50c2f59073eb53177eb8fed12ec2a55e.setContent(html_8194b2e879554ea0911449a1db43cf32);
+            
+        
+
+        marker_be27199eb26b9a3d1bd24d07ce27dc6f.bindPopup(popup_50c2f59073eb53177eb8fed12ec2a55e)
+        ;
+
+        
+    
+    
+            marker_be27199eb26b9a3d1bd24d07ce27dc6f.bindTooltip(
+                `<div>
+                     SWIMMING POOL COMPLEX
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_be27199eb26b9a3d1bd24d07ce27dc6f.setIcon(icon_390e400b32eec2b785f8790c4109a03b);
+            
+    
+            var marker_7c0d8be7a8c758eab72af1777290a9b5 = L.marker(
+                [2.9278483211464947, 101.64249536771976],
+                {
+}
+            ).addTo(map_4b3aeb8cc3a3c58cab89d18dfd0c8a50);
+        
+    
+            var icon_a4870332e3db05ad93f5c1c4278cd965 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "university",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c01fa0a846fbfb0453c960493c5f9704 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_de1d43c02e2e74c4b46d81f73c7a1536 = $(`<div id="html_de1d43c02e2e74c4b46d81f73c7a1536" style="width: 100.0%; height: 100.0%;">     <div style="text-align: center;">         <h4>CLC</h4>         <a href="/create?building=clc" target="_top" style="             display: inline-block;             padding: 6px 12px;             margin-top: 5px;             background-color: #007bff;             color: white;             text-decoration: none;             border-radius: 5px;             font-size: 14px;">             Click         </a>     </div>     </div>`)[0];
+                popup_c01fa0a846fbfb0453c960493c5f9704.setContent(html_de1d43c02e2e74c4b46d81f73c7a1536);
+            
+        
+
+        marker_7c0d8be7a8c758eab72af1777290a9b5.bindPopup(popup_c01fa0a846fbfb0453c960493c5f9704)
+        ;
+
+        
+    
+    
+            marker_7c0d8be7a8c758eab72af1777290a9b5.bindTooltip(
+                `<div>
+                     CLC
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_7c0d8be7a8c758eab72af1777290a9b5.setIcon(icon_a4870332e3db05ad93f5c1c4278cd965);
+            
+</script>
+</html>

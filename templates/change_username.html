@@ -22,18 +22,17 @@
     </header>
 
     <div class="back-container">
-    <a href="{{ url_for('userpage') }}" class="back-btn">Back</a>
+        <a href="{{ url_for('userpage') }}" class="back-btn">⬅ Back</a>
     </div>
 
     <main class="content">
-      <h1>Change Username</h1>
+        <h1>Change Username</h1>
 
-      <form class="auth-form" method="POST">
-      <label>New Username:</label>
-        <input name="username" type="text" placeholder="Enter new username" required />
-
-      <button type="submit" class="btn login-btn">Update</button>
-      </form>
+        <form class="auth-form" method="POST">
+            <label for="new_username">New Username:</label>
+            <input type="text" name="new_username" id="new_username" placeholder="Enter new username" required>
+            <button type="submit" class="btn login-btn">Update</button>
+        </form>
     </main>
 
 </body>

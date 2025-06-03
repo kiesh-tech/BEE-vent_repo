@@ -20,29 +20,33 @@ buildings = {
     'CLC': {'coords': [2.9278483211464947, 101.64249536771976]},
 }
 
-# Add building markers to the map
+buildings_with_rooms = ['fci', 'fcm', 'fom']
+
 for building, data in buildings.items():
-    # Generate file name (e.g., "FCI" -> "fci.html")
-    filename = building.lower().replace(" ", "_") + ".html"
+    building_key = building.lower().replace(" ", "_")
     
-    # HTML popup with link to page opened in the same tab
+    if building_key in buildings_with_rooms:
+        route_path = f"/building/{building_key}"  # will render fci.html etc.
+    else:
+        route_path = f"/create?building={building_key}"  # or whatever your route for event creation is
+
     popup_html = f"""
-<div style="text-align: center;">
-    <h4>{building}</h4>
-    <a href="{filename}" target="_top" style="
-        display: inline-block;
-        padding: 6px 12px;
-        margin-top: 5px;
-        background-color: #007bff;
-        color: white;
-        text-decoration: none;
-        border-radius: 5px;
-        font-size: 14px;">
-        Click
-    </a>
-</div>
-"""
-    
+    <div style="text-align: center;">
+        <h4>{building}</h4>
+        <a href="{route_path}" target="_top" style="
+            display: inline-block;
+            padding: 6px 12px;
+            margin-top: 5px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;">
+            Click
+        </a>
+    </div>
+    """
+
     folium.Marker(
         location=data['coords'],
         popup=folium.Popup(popup_html, max_width=300),
@@ -51,5 +55,5 @@ for building, data in buildings.items():
     ).add_to(mmu_map)
 
 # Save the interactive map
-mmu_map.save("mmu_map.html")
+mmu_map.save("BEE-vent_repo/templates/mmu_map.html")
 print("Map created and saved as 'mmu_map.html'")

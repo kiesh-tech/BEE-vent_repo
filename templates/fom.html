@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bee-vents</title>
-  <link rel="stylesheet" href="{{ url_for('Map', filename='style2.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}" />
   <style>
     .floor-buttons button {
       margin: 10px;
@@ -82,19 +82,12 @@
   </div>
   <div class="navbar-right">
     <a href="{{ url_for('home') }}" class="logout-btn">LOG OUT</a>
-    <div class="dropdown">
-      <input type="checkbox" class="dropdown-checkbox" id="dropdown-toggle">
-      <label for="dropdown-toggle" class="dropdown-button">⋮</label>
-      <div class="dropdown-content">
-        <a href="{{ url_for('manage_account') }}">Manage Account</a>
-        <a href="#" id="delete-account-link">Delete Account</a>
-      </div>
     </div>
   </div>
 </header>
 
 <main>
-  <h2 style="text-align: center; margin-top: 20px;">FCM Floor Plan</h2>
+  <h2 style="text-align: center; margin-top: 20px;">FOM Floor Plan</h2>
 
   <div class="floor-buttons" style="text-align: center;">
     <button onclick="showFloor('groundFloor')">Ground Floor</button>
@@ -103,24 +96,14 @@
 
   <!-- Ground Floor SVG -->
   <svg id="groundFloor" viewBox="0 0 600 300">
-    <!-- Hallway rectangle -->
-    <rect class="area" id="hallway" x="50" y="100" width="200" height="100" />
-    <text x="110" y="160">Hallway</text>
-    
-    <!-- Gallery rectangle -->
-    <rect class="area" id="lecture" x="350" y="100" width="200" height="100" />
-    <text x="390" y="160">Gallery</text>
+    <rect class="area" id="hallway" x="100" y="100" width="400" height="100" />
+    <text x="260" y="160">Hallway</text>
   </svg>
 
   <!-- 1st Floor SVG -->
   <svg id="firstFloor" viewBox="0 0 600 300">
-    <!--Fcm lecture theatre-->
-    <rect class="area" id="fcmTheatre" x="50" y="100" width="200" height="100" />
-    <text x="100" y="160">FCM theatre (FCM)</text>
-
-    <!-- Agmo space rectangle -->
-    <rect class="area" id="agmospace" x="350" y="100" width="200" height="100" />
-    <text x="390" y="160">Agmo space (FCM)</text>
+    <rect class="area" id="lecture" x="150" y="80" width="300" height="140" />
+    <text x="230" y="160">FOM theatre (FOM)</text>
   </svg>
 
   <!-- Modal -->
@@ -129,9 +112,13 @@
       <span class="close" onclick="closeModal()">&times;</span>
       <h3 id="modalTitle">Area Info</h3>
       <p id="modalContent">Details go here...</p>
-      <div id="modalButtons" style="margin-top: 15px;">
-        <a id="goBtn" class="modal-btn" href="#" style="padding: 10px 20px; background-color: #4fc3f7; text-align: center; border-radius: 5px; color: white; text-decoration: none; display: inline-block;">Click</a>
-      </div>
+        <div id="modalButtons" style="margin-top: 15px;">
+        <form id="roomForm" method="POST" action="/select_room">
+        <input type="hidden" name="building" value="fom" />
+        <input type="hidden" name="room" id="roomInput" value="" />
+        <button type="submit" style="padding: 10px 20px; background-color: #4fc3f7; border: none; border-radius: 5px; color: white;">Continue</button>
+        </form>
+        </div>
     </div>
   </div>
 </main>
@@ -145,37 +132,22 @@
   }
 
   // Area info
-  const areaInfo = {
-    hallway: {
-      description: "Ground floor hallway",
-      url: "/Map/create3" 
-    },
-    lecture: {
-      description: "Gallery on ground floor",
-      url: "/room/lecture"
-    },
-    fcmTheatre: {
-      description: "1st Floor FCM Lecture Theatre",
-      url: "/room/fcmTheatre"
-    },
-    agmospace: {
-      description: "1st Floor Agmo space",
-      url: "/room/agmospace"
-    }
-  };
+const areaInfo = {
+  hallway: {
+    description: "Ground floor hallway"
+  },
+  lecture: {
+    description: "1st floor Lecture Theatre"
+  }
+};
 
   // Click events
-  ["hallway", "lecture", "fcmTheatre", "agmospace"].forEach(id => {
+  ["hallway", "lecture"].forEach(id => {
     document.getElementById(id).addEventListener("click", () => {
       const info = areaInfo[id];
-      document.getElementById("modalTitle").innerText = 
-      id === "hallway" ? "Hallway" : 
-      id === "lecture" ? "Gallery" : 
-      id === "fcmTheatre" ? "FCM theatre (FCM)" :
-      id === "agmospace" ? "Agmo space (FCM)" :
-      "Area Info"; 
+      document.getElementById("modalTitle").innerText = id === "hallway" ? "Hallway" : "Lecture Theatre";
       document.getElementById("modalContent").innerText = info.description;
-      document.getElementById("goBtn").href = info.url;
+      document.getElementById("roomInput").value = id;
       document.getElementById("roomModal").style.display = "flex";
     });
   });
