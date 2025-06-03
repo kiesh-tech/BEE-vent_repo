@@ -23,10 +23,13 @@
 
 <h2>Join an Event</h2>
 
-<form method="GET" action="{{ url_for('join') }}" class="search-form">
-  <input type="text" name="search" placeholder="Search events..." value="{{ request.args.get('search', '') }}">
-  <button type="submit">Search</button>
-</form>
+<div class="join-search-form">
+  <form method="GET" action="{{ url_for('join') }}" class="search-form">
+   <input type="text" name="search" placeholder="Search events..." value="{{ request.args.get('search', '') }}">
+   <button type="submit">Search</button>
+  </form>
+</div>
+
 
 <section class="event-section">
   {% for event in other_events %}
