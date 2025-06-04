@@ -141,6 +141,19 @@ def create_event_post():
 def map():
     return render_template('map.html')
 
+
+@app.route('/book/<int:room_id>', methods=['POST', 'GET'])
+def book_room(room_id):
+    if request.method == 'POST':
+        pax = request.form['pax']
+        date = request.form['date']
+        time = request.form['time']
+        duration = request.form['duration']
+        return redirect(url_for('home_page'))
+    
+    return render_template('booking.html', room_id=room_id)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
 
