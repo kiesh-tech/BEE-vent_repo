@@ -173,5 +173,24 @@ def delete_account():
     flash("Account successfully deleted!", "info")
     return redirect(url_for('/login'))
 
+@app.route('/event/<int:event_id>/comment', methods=['GET', 'POST'])
+@login_required
+def event_comment(event_id):
+    event = Event.query.get_or_404(event_id)
+
+    if request.method == 'POST':
+        content = request.form['content']
+        comment = Comment(content=content, user_id=current_user.id, event_id=event_id)
+        db.session.add(comment)
+        db.session.commit()
+        return redirect(url_for('event_comment', event_id=event_id))
+
+    comments = Comment.query.filter_by(event_id=event_id).order_by(Comment.timestamp.desc()).all()
+    
+    for comment in comments:
+        comment.local_timestamp = to_malaysia_time(comment.timestamp)
+    
+    return render_template('comment.html', event=event, comments=comments)
+
 if __name__ == '__main__':
     app.run(debug=True)
