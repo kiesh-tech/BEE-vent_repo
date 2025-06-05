@@ -344,25 +344,6 @@ def delete_account():
     logout_user()
     return redirect(url_for('home'))
 
-@app.route('/change_username', methods=['GET', 'POST'])
-@login_required
-def change_username():
-     if request.method == 'POST':
-        new_username = request.form['new_username'].strip()
-        if new_username and new_username != current_user.username:
-            existing_user = User.query.filter_by(username=new_username).first()
-            if existing_user:
-                flash("❌ Username already taken.", "danger")
-            else:
-                current_user.username = new_username
-                db.session.commit()
-                flash("✅ Username updated successfully.", "success")
-                return redirect(url_for('userpage'))
-        else:
-            flash("⚠️ Invalid or same username.", "warning")
-
-     return render_template('change_username.html')
-
 @app.route('/change_password', methods=['GET', 'POST'])
 @login_required
 def change_password():
@@ -436,7 +417,7 @@ def building_select():
 @app.route('/building/<building_name>')
 def building_page(building_name):
     building_name = building_name.lower()
-    if building_name in ['fci', 'fcm', 'fom']:
+    if building_name in ['fci', 'fcm', 'fom', 'clc']:
         return render_template(f'{building_name}.html')  # SVG maps
     else:
         return redirect(url_for('create_event', building=building_name))

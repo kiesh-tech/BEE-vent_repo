@@ -32,7 +32,6 @@
             <div class="profile-dropdown">
     <div class="profile-btn" onclick="toggleProfileDropdown()">👤 {{ current_user.username }}</div>
     <div class="profile-menu" id="profileMenu">
-      <a href="{{ url_for('change_username') }}">Change Username</a>
        <a href="{{ url_for('change_password') }}">Change Password</a>
       <form action="{{ url_for('delete_account') }}" method="POST" onsubmit="return confirm('Are you sure you want to delete your account?');">
     <button type="submit" class="btn btn-danger">Delete Account</button>

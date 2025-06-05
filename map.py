@@ -20,7 +20,7 @@ buildings = {
     'CLC': {'coords': [2.9278483211464947, 101.64249536771976]},
 }
 
-buildings_with_rooms = ['fci', 'fcm', 'fom']
+buildings_with_rooms = ['fci', 'fcm', 'fom', 'clc']
 
 for building, data in buildings.items():
     building_key = building.lower().replace(" ", "_")
