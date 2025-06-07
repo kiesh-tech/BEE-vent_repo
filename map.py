@@ -23,7 +23,7 @@ buildings = {
 buildings_with_rooms = ['fci', 'fcm', 'fom', 'clc']
 
 for building, data in buildings.items():
-    building_key = building.lower().replace(" ", "_")
+    building_key = building.lower()
     
     if building_key in buildings_with_rooms:
         route_path = f"/building/{building_key}"  # will render fci.html etc.
