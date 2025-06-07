@@ -101,18 +101,18 @@
     <text x="110" y="160">Hallway</text>
     
     <!-- Gallery rectangle -->
-    <rect class="area" id="lecture" x="350" y="100" width="200" height="100" />
+    <rect class="area" id="Gallery" x="350" y="100" width="200" height="100" />
     <text x="390" y="160">Gallery</text>
   </svg>
 
   <!-- 1st Floor SVG -->
   <svg id="firstFloor" viewBox="0 0 600 300">
     <!--Fcm lecture theatre-->
-    <rect class="area" id="fcmTheatre" x="50" y="100" width="200" height="100" />
+    <rect class="area" id="Theatre" x="50" y="100" width="200" height="100" />
     <text x="100" y="160">FCM theatre (FCM)</text>
 
     <!-- Agmo space rectangle -->
-    <rect class="area" id="agmospace" x="350" y="100" width="200" height="100" />
+    <rect class="area" id="AGMOSPACE" x="350" y="100" width="200" height="100" />
     <text x="390" y="160">Agmo space (FCM)</text>
   </svg>
 
@@ -144,25 +144,25 @@
     hallway: {
       description: "Ground floor hallway"
     },
-    lecture: {
+    Gallery: {
       description: "Gallery on ground floor"
     },
-    fcmTheatre: {
+    Theatre: {
       description: "1st Floor FCM Lecture Theatre"
     },
-    agmospace: {
+    AGMOSPACE: {
       description: "1st Floor Agmo space"
     }
   };
 
-  ["hallway", "lecture", "fcmTheatre", "agmospace"].forEach(id => {
+  ["hallway", "Gallery", "Theatre", "AGMOSPACE"].forEach(id => {
     document.getElementById(id).addEventListener("click", () => {
       const info = areaInfo[id];
       document.getElementById("modalTitle").innerText =
         id === "hallway" ? "Hallway" :
-        id === "lecture" ? "Gallery" :
-        id === "fcmTheatre" ? "FCM Theatre (FCM)" :
-        id === "agmospace" ? "Agmo Space (FCM)" : "Area Info";
+        id === "Gallery" ? "Gallery" :
+        id === "Theatre" ? "FCM Theatre (FCM)" :
+        id === "AGMOSPACE" ? "Agmo Space (FCM)" : "Area Info";
       document.getElementById("modalContent").innerText = info.description;
       document.getElementById("roomInput").value = id;
       document.getElementById("roomModal").style.display = "flex";
