@@ -242,8 +242,10 @@ def comment(event_id):
 def create_event():
     buildings = MMUBuilding.query.all()
     rooms = Room.query.all()
-    selected_building = request.args.get('building')  # NEW LINE
-    return render_template('create.html', buildings=buildings, rooms=rooms, selected_building=selected_building)
+
+    selected_building = request.args.get('building', '').lower()
+    selected_room = request.args.get('room', '').lower()
+    return render_template('create.html', buildings=buildings, rooms=rooms, selected_building=selected_building, selected_room=selected_room)
 
 @app.route('/create', methods=['POST'])
 @login_required
@@ -277,7 +279,7 @@ def create_event_post():
         conflict_event = conflict_query.first()
         if conflict_event:
             flash("❌ Building or room is already booked within 2 hours of the selected time. Please choose another time.", "danger")
-            return redirect(url_for('create_event'))
+            return redirect(url_for('userpage'))
 
 
         new_event = Event(

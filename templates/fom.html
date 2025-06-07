@@ -102,7 +102,7 @@
 
   <!-- 1st Floor SVG -->
   <svg id="firstFloor" viewBox="0 0 600 300">
-    <rect class="area" id="lecture" x="150" y="80" width="300" height="140" />
+    <rect class="area" id="Theatre" x="150" y="80" width="300" height="140" />
     <text x="230" y="160">FOM theatre (FOM)</text>
   </svg>
 
@@ -136,13 +136,13 @@ const areaInfo = {
   hallway: {
     description: "Ground floor hallway"
   },
-  lecture: {
+  Theatre: {
     description: "1st floor Lecture Theatre"
   }
 };
 
   // Click events
-  ["hallway", "lecture"].forEach(id => {
+  ["hallway", "Theatre"].forEach(id => {
     document.getElementById(id).addEventListener("click", () => {
       const info = areaInfo[id];
       document.getElementById("modalTitle").innerText = id === "hallway" ? "Hallway" : "Lecture Theatre";
