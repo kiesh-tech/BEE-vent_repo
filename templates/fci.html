@@ -80,7 +80,7 @@
       <text x="110" y="160">Hallway</text>
       
       <!-- Lecture Theatre rectangle -->
-      <rect class="area" id="lecture" x="350" y="100" width="200" height="100" />
+      <rect class="area" id="CQMX0001" x="350" y="100" width="200" height="100" />
       <text x="390" y="160">CQMX0001 (FCI)</text>
     </svg>
     
@@ -107,18 +107,18 @@
       hallway: {
         description: "Ground floor hallway"
       },
-      lecture: {
+      CQMX0001: {
         description: "Lecture Theatre on the ground floor"
       }
     };
 
     // Attach click events to the areas
-  ["hallway", "lecture"].forEach(id => {
+  ["hallway", "CQMX0001"].forEach(id => {
     document.getElementById(id).addEventListener("click", () => {
       const info = areaInfo[id];
       document.getElementById("modalTitle").innerText =
         id === "hallway" ? "Hallway" :
-        id === "lecture" ? "CQMX0001 (FCI)" : "Area Info";
+        id === "CQMX0001" ? "CQMX0001" : "Area Info";
       document.getElementById("modalContent").innerText = info.description;
       document.getElementById("roomInput").value = id;
       document.getElementById("roomModal").style.display = "flex";
@@ -132,3 +132,4 @@
   </script>
 </body>
 </html>
+
