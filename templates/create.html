@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Bee-vents</title>
+    <title>Create Event - Bee-vents</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
 </head>
 <body>
@@ -19,6 +19,16 @@
             <a href="{{ url_for('logout') }}" class="logout-btn">LOG OUT</a>
         </div>
     </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul class="flash-messages">
+      {% for category, message in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
 
     <div class="filter-page-container">
         <h2>Create New Event</h2>
@@ -59,23 +69,29 @@
             <!-- Building Selection -->
             <div class="form-group">
                 <label for="building_id">Building:</label>
-                <select name="building_id" id="building_id">
-                    <option value="">-- Select Building --</option>
-                    {% for building in buildings %}
-                        <option value="{{ building.id }}">{{ building.building_name }}</option>
-                    {% endfor %}
-                </select>
+                <select name="building_id" id="building">
+  <option value="">-- Select Building --</option>
+  {% for b in buildings %}
+    <option value="{{ b.id }}" {% if b.building_name.lower() == selected_building %}selected{% endif %}>
+      {{ b.building_name }}
+    </option>
+  {% endfor %}
+</select>
             </div>
 
             <!-- Room Selection -->
             <div class="form-group">
                 <label for="room_id">Room (Optional):</label>
-                <select name="room_id" id="room_id">
-                    <option value="">-- Select Room --</option>
-                    {% for room in rooms %}
-                        <option value="{{ room.room_id }}">{{ room.room_name }} ({{ room.building.building_name }})</option>
-                    {% endfor %}
-                </select>
+                <select name="room_id" id="room">
+  <option value="">-- Select Room --</option>
+  {% for r in rooms %}
+    {% if r.building.building_name.lower() == selected_building %}
+      <option value="{{ r.room_id }}" {% if r.room_name.lower() == selected_room %}selected{% endif %}>
+        {{ r.room_name }}
+      </option>
+    {% endif %}
+  {% endfor %}
+</select>
             </div>
 
             <button type="submit" class="save-filter-btn">Create Event</button>
