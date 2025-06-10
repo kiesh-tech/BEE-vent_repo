@@ -1,7 +1,7 @@
-Flask
-Flask-SQLAlchemy
-mysql-connector-python
-Flask-WTF
-Flask-Login
-Flask-Bcrypt
-Flask-Migrate
+Flask==2.3.3
+Flask-Login==0.6.3
+Flask-Migrate==4.0.5
+Flask-SQLAlchemy==3.1.1
+SQLAlchemy==2.0.30
+pytz==2024.1
+Werkzeug==3.0.3

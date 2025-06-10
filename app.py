@@ -2,11 +2,9 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from model import db, MMUBuilding, Room, User, Event, event_participants, Notification, Comment
 from flask_migrate import Migrate
-from apscheduler.schedulers.background import BackgroundScheduler
 import pytz
 from datetime import datetime, timedelta
 import os
-import random
 from sqlalchemy import event
 from sqlalchemy.engine import Engine
 import sqlite3
