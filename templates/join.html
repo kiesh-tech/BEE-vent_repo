@@ -21,7 +21,7 @@
     </div>
   </div>
 
-<h2>Join an Event</h2>
+<h2 class="section-title join-title">🎯 Discover & Join Events</h2>
 
 <form method="GET" action="{{ url_for('join') }}" class="search-form">
   <input type="text" name="search" placeholder="Search events..." value="{{ request.args.get('search', '') }}">
@@ -54,3 +54,6 @@
     <p>No events found.</p>
   {% endfor %}
 </section>
+
+</body>
+</html>
