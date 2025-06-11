@@ -294,11 +294,24 @@ body {
 }
 
 .event-card {
-  background: #fff;
-  border-radius: 8px;
-  width: 220px;
-  text-align: center;
-}
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    margin: 15px;
+    width: 300px;
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .event-header {
+    height: 120px;
+    background: var(--bg-gradient, #ccc);
+  }
+
+  .event-body {
+    padding: 15px;
+    background-color: white;
+  }
 
 .event-image {
   height: 150px;
@@ -349,7 +362,7 @@ body {
   gap: 1rem;
 }
 
-.comment-form textarea {
+.coment-form textarea {
   padding: 1rem;
   border-radius: 6px;
   border: 1px solid #ccc;
@@ -377,20 +390,21 @@ body {
 }
 
 .back-container {
-  max-width: 1000px;
+  max-width: 10000px;
   margin: 1rem auto 0 auto;
   padding: 0 2rem;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .back-btn {
-  display: inline-block;
   background-color: #ccc;
   color: #002b5c;
   padding: 8px 16px;
   border-radius: 8px;
   text-decoration: none;
   font-weight: bold;
-  transition: background-color 0.3 ease;
+  transition: background-color 0.3s ease;
 }
 
 .back-btn:hover {
@@ -441,8 +455,8 @@ body {
 }
 
 #room_id {
-  width: 90%; 
-  max-width: 200px;
+width: 90%; 
+max-width: 200px;
 }
 
 .save-filter-btn {
@@ -476,12 +490,89 @@ body {
   }
 }
 
+.flash-messages .flash {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.flash.success {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.flash.info {
+    background-color: #2196F3;
+    color: white;
+}
+
+.flash.danger {
+    background-color: #f44336;
+    color: white;
+}
+
+/* Notification Icon */
+.notification-icon {
+    position: relative;
+    cursor: pointer;
+    font-size: 40px;
+}
+
+.notification-icon .fa-bell {
+    color: #f39c12;
+    position: absolute;
+    top: 2px;
+    right: 5px;
+}
+
+.notification-icon .badge {
+    position: absolute;
+    top: -2px;
+    right: 5px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 5px;
+    font-size: 14px;
+}
+
+.top-right-panel {
+    position: absolute;
+    top: 10px;
+    right: 100px;  /* Adjust this if it's still off-screen */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    z-index: 1000;
+}
+
+/* Notification Dropdown */
+.notification-dropdown {
+    position: absolute;
+    top: 35px;
+    right: 0;
+    transform: translateX(-50px); /* Optional: shift left if it overflows */
+    background-color: white;
+    border: 1px solid #ccc;
+    width: 250px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.notification-dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
 .scroll-image-wrapper {
 position: fixed;
 bottom: 0;
 left: 0;
 width: 100%;
-height: 200px;
+height: 150px;
 overflow: hidden;
 background-color: #fef8e6;
 z-index: 10;
@@ -491,8 +582,8 @@ z-index: 10;
 position: absolute;
 top: 0;
 left: -300px;
-height: 240px;
-animation: scroll-image-move 5s linear infinite;
+height: 150px;
+animation: scroll-image-move 10s linear infinite;
 }
 
 /* Keyframe animation for scrolling image */
@@ -501,8 +592,66 @@ animation: scroll-image-move 5s linear infinite;
   left: -300px;
 }
 100% {
-  left: 100vw;
+  left: 100%;
 }
+}
+
+
+
+.notification-dropdown .notification-item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.notification-dropdown .notification-item p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.notification-dropdown .notification-item small {
+    color: gray;
+    font-size: 12px;
+}
+
+.profile-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-btn {
+  background-color: #337ce4;
+  border: none;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+.profile-btn:hover{
+  background-color: #8dbbf0;
+}
+
+.profile-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: white;
+  min-width: 160px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-radius: 8px;
+  margin-top: 5px;
+}
+
+.profile-menu a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.profile-menu a:hover {
+  background-color: #f5f5f5;
 }
 
 .join-search-form {
