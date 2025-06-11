@@ -10,6 +10,14 @@
 </head>
 <body>
 
+
+
+
+
+
+
+  
+  
     <div class="navbar">
         <div class="navbar-left">
           <div class="navbar-logo">MMU</div>
@@ -19,6 +27,16 @@
           </div>
         </div>
         <div class="navbar-right">
+          <div class="profile-dropdown">
+    <div class="profile-btn" onclick="toggleProfileDropdown()">👤 {{ current_user.username }}</div>
+    <div class="profile-menu" id="profileMenu">
+      <a href="{{ url_for('change_username') }}">Change Username</a>
+       <a href="{{ url_for('change_password') }}">Change Password</a>
+      <form action="{{ url_for('delete_account') }}" method="POST" onsubmit="return confirm('Are you sure you want to delete your account?');">
+    <button type="submit" class="btn btn-danger">Delete Account</button>
+      </form>
+    </div>
+    </div>
           <a href="{{ url_for('home') }}" class="logout-btn">LOG OUT</a>
         </div>
       </div>
@@ -26,7 +44,7 @@
       <section class="actions-section">
         <div class="action-card">
 
-          <a href="{{ url_for('create_event') }}" class="action-btn">Create</a>
+          <a href="{{ url_for('building_select') }}" class="action-btn">Create</a>
           <div class="action-desc">Description about what you are creating</div>
         </div>
         <div class="action-card">
@@ -34,14 +52,10 @@
 
           <div class="action-desc">Description view about the event that is going to happen</div>
         </div>
-        <div class="action-card">
-          <button class="action-btn">Delete</button>
-          <div class="action-desc">Description deleting events that you don't want to participate anymore</div>
-        </div>
       </section>
 
   
-      <h2>My Created Events</h2>
+      <h2 class=" section-title created-title ">📌 Events You've Created</h2>
       <section class="event-section">
         {% for event in my_events %}
           <div class="event-card">
@@ -61,11 +75,25 @@
                 Location not set
               {% endif %}
             </div>
+
+
+
+
+
+
+            
           </div>
         {% else %}
           <p>No events created yet.</p>
         {% endfor %}
       </section>
+
+      <h2 class="section-title joined-title">🤝 Events You've Joined</h2>
+      <section class="event-section">
+
+
+
+        
 
 </body>
 </html>
