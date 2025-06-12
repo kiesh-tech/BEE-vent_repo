@@ -30,8 +30,10 @@
   {% endif %}
 {% endwith %}
 
-    <div class="filter-page-container">
-        <h2>Create New Event</h2>
+    <h2 class="create-event-title">Create New Event</h2>
+    <div class="filter-page-container" style="display: flex; justify-content: center; gap: 40px; padding: 40px;">
+        
+        <div class="filter-left" style="width: 2000px;">
         <form class="filter-form" method="POST" action="{{ url_for('create_event_post') }}">
             <div class="form-group">
                 <label for="event_name">Event Name:</label>

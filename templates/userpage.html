@@ -92,7 +92,7 @@
       </section>
 
   
-      <h2>My Created Events</h2>
+      <h2 class=" section-title created-title ">📌 Events You've Created</h2>
       <section class="event-section">
         {% for event in my_events %}
            <div class="event-card" style="--bg-gradient: {{ event.bg_gradient }}">
@@ -127,7 +127,7 @@
         {% endfor %}
       </section>
 
-      <h2>My Joined Events</h2>
+      <h2 class="section-title joined-title">🤝 Events You've Joined</h2>
 <section class="event-section">
     {% for event in joined_events %}
          <div class="event-card" style="--bg-gradient: {{ event.bg_gradient }}">
